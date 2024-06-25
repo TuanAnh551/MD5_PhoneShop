@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.20",
+    "@mui/material": "^5.15.20",
+    "axios": "^1.7.2",
     "babel-plugin-react-compiler": "^0.0.0-experimental-938cd9a-20240601",
     "i18next": "^23.11.5",
     "react": "19.0.0-rc-3563387fe3-20240621",
