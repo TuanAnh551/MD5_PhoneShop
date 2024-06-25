@@ -1,13 +1,14 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
-
+import Header from "./home/header/Header";
+import Footer from "./home/footer/Footer";
 export default function Home() {
   const { i18n } = useTranslation(); // Destructure i18n from useTranslation
   return (
     <div className="home_page">
-      <header>
-        Header
+      <Header/>
+       
         <button
           onClick={() => {
             localStorage.setItem("lng", "en");
@@ -24,11 +25,11 @@ export default function Home() {
         >
           vi
         </button>
-      </header>
+      
       <div className="home_page_container">
         <Outlet></Outlet>
       </div>
-      <footer>Footer</footer>
+      <Footer/>
     </div>
   );
 }
