@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import { styled, alpha } from "@mui/material/styles";
-
+import { useTranslation } from "react-i18next";
 // SCSS styles
 import "./header.scss";
 
@@ -49,8 +49,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+ 
 
 const Header: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <AppBar position="static" className="header-bar">
       <Toolbar className="toolbar">
@@ -67,22 +69,22 @@ const Header: React.FC = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Button color="inherit">Danh mục</Button>
-          <Button color="inherit">Xem giá tại Hồ Chí Minh</Button>
+          <Button color="inherit">{t("Danhmuc")}</Button>
+          <Button color="inherit">{t("xemgia")}</Button>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Bạn cần tìm gì?"
+              placeholder={t("search")}
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Button color="inherit">Gọi mua hàng 1800.2087</Button>
-          <Button color="inherit">Cửa hàng gần bạn</Button>
-          <Button color="inherit">Tra cứu đơn hàng</Button>
-          <Button color="inherit">Giỏ hàng</Button>
-          <Button color="inherit">Đăng nhập</Button>
+          <Button color="inherit">{t("call")}</Button>
+          <Button color="inherit">{t("shop")}</Button>
+          <Button color="inherit">{t("order")}</Button>
+          <Button color="inherit">{t("cart")}</Button>
+          <Button color="inherit">{t("login")}</Button>
         </div>
       </Toolbar>
     </AppBar>
