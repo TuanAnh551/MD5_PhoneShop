@@ -9,7 +9,7 @@ body {
 }
 
 // Container chính
-.container {
+.container-login {
   display: flex;
   max-width: 1000px;
   width: 100%;
@@ -22,7 +22,7 @@ body {
 // Hình ảnh bên trái
 .container .image {
   flex: 1;
-  background: url('/path/to/your/image.jpg') center center/cover no-repeat;
+  background: url("/path/to/your/image.jpg") center center/cover no-repeat;
 }
 
 // Phần đăng nhập bên phải

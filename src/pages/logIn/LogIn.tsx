@@ -1,17 +1,13 @@
-import React from 'react';
-import './login.scss';
-
-
+import React from "react";
+import "./login.scss";
 
 const Login: React.FC = () => {
- 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
   };
   return (
     <>
-      <div className="container">
+      <div className="container-login">
         <div className="image"></div>
         <div className="login">
           <h2>Login</h2>
