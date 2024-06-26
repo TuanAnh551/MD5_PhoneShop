@@ -1,16 +1,18 @@
 import React from "react";
 import "./footer.scss";
+import { useTranslation } from "react-i18next";
 
 const Footer: React.FC = () => {
+     const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-section contact-info">
-          <h3>Tổng đài hỗ trợ miễn phí</h3>
-          <p>Gọi mua hàng 1800.2097 (7h30 - 22h00)</p>
-          <p>Gọi khiếu nại 1800.2063 (8h00 - 21h30)</p>
-          <p>Gọi bảo hành 1800.2064 (8h00 - 21h00)</p>
-          <h4>Phương thức thanh toán</h4>
+          <h3>{t("hotline")}</h3>
+          <p>{t("hotline_purchase")}</p>
+          <p>{t("hotline_complain")}</p>
+          <p>{t("hotline_guarantee")}</p>
+          <h4>{t("payment")}</h4>
           <div className="payment-methods">
             <img
               src="https://cdn2.cellphones.com.vn/x35,webp/media/wysiwyg/apple-pay-og.png"
@@ -52,60 +54,74 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="footer-section subscription">
-          <h3>Đăng ký nhận tin khuyến mãi</h3>
+          <h3>{t("singup")}</h3>
           <p>
-            <i>*</i> Nhận ngay voucher 10%
+            <i>*</i> {t("voucher")}
           </p>
           <p>
-            <i>*</i> Voucher sẽ được gửi sau 24h, chỉ áp dụng cho khách hàng mới
+            <i>*</i> {t("voucher_note")}
           </p>
           <form className="subscription-form">
-            <input type="email" placeholder="Email *" required />
-            <input type="text" placeholder="Số điện thoại" />
+            <input type="email" placeholder={t("email")} required />
+            <input type="text" placeholder={t("phone")} />
             <div className="agreement">
               <input type="checkbox" required />
               <a href="https://cellphones.com.vn/tos?part=privacy-policy">
-                Tôi đồng ý với điều khoản của CellphoneS
+                {t("agreement")}
               </a>
             </div>
-            <button type="submit">Đăng ký ngay</button>
+            <button type="submit">{t("register")}</button>
           </form>
         </div>
 
         <div className="footer-section policies">
-          <h3>Thông tin và chính sách</h3>
+          <h3>{t("information_policy")}</h3>
           <ul>
-            <li>Mua hàng và thanh toán Online</li>
-            <li>Mua hàng trả góp Online</li>
-            <li>Mua hàng trả góp bằng thẻ tín dụng</li>
-            <li>Chính sách giao hàng</li>
-            <li>Hệ thống cửa hàng</li>
-            <li>Xem ưu đãi Smember</li>
-            <li>Trả thông tin bảo hành</li>
-            <li>Tra cứu hoá đơn điện tử</li>
-            <li>Trung tâm bảo hành chính hãng</li>
-            <li>Quy định về việc sao lưu dữ liệu</li>
-            <li>Chính sách khui hộp sản phẩm Apple</li>
+            <li>{t("buy_online")}</li>
+            <li> {t("installment_online")}</li>
+            <li>
+               {t("installment_credit_card")}
+            </li>
+            <li>{t("delivery_policy")}</li>
+            <li> {t("store_system")}</li>
+            <li> {t("smember_offer")}</li>
+            <li>{t("warranty_information")}</li>
+            <li> {t("electronic_invoice")}</li>
+            <li>
+               {t("official_warranty_center")}
+            </li>
+            <li> {t("backup_data")}</li>
+            <li>
+              
+              {t("apple_product_unboxing_policy")}
+            </li>
           </ul>
         </div>
 
         <div className="footer-section services">
-          <h3>Dịch vụ và thông tin khác</h3>
+          <h3>{t("other_services_information")}</h3>
           <ul>
-            <li>Khách hàng doanh nghiệp (B2B)</li>
-            <li>Ưu đãi thanh toán</li>
-            <li>Quy chế hoạt động</li>
-            <li>Chính sách bảo mật thông tin cá nhân</li>
-            <li>Chính sách Bảo hành</li>
-            <li>Liên hệ hợp tác kinh doanh</li>
-            <li>Tuyển dụng</li>
-            <li>Dịch vụ bảo hành mở rộng</li>
-            <li>S. Smember. Tích điểm & sử dụng ưu đãi</li>
+            <li>{t("business_customers")}</li>
+            <li> {t("payment_offer")}</li>
+            <li>{t("operating_regulations")}</li>
+            <li>
+              
+              {t("personal_information_privacy_policy")}
+            </li>
+            <li> {t("warranty_policy")}</li>
+            <li>
+              {t("business_cooperation_contact")}
+            </li>
+            <li>{t("recruitment")}</li>
+            <li> {t("extended_warranty_service")}</li>
+            <li>
+           {t("smember_points")}
+            </li>
           </ul>
         </div>
 
         <div className="footer-section social">
-          <h3>Kết nối với CellphoneS</h3>
+          <h3> {t("connect_with_cellphones")}</h3>
           <div className="social-icons">
             <a href="#">
               <img
