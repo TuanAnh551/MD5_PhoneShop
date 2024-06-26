@@ -11,6 +11,7 @@ import { styled, alpha } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 // SCSS styles
 import "./header.scss";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,9 +50,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
- 
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  //dieu huong den trang cart
+  const handleShowCart = () => {
+    navigate("/cart");
+  };
   const { t } = useTranslation();
   return (
     <AppBar position="static" className="header-bar">
@@ -83,7 +88,9 @@ const Header: React.FC = () => {
           <Button color="inherit">{t("call")}</Button>
           <Button color="inherit">{t("shop")}</Button>
           <Button color="inherit">{t("order")}</Button>
-          <Button color="inherit">{t("cart")}</Button>
+          <Button color="inherit" onClick={handleShowCart}>
+            {t("cart")}
+          </Button>
           <Button color="inherit">{t("login")}</Button>
         </div>
       </Toolbar>
