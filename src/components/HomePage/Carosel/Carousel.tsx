@@ -1,5 +1,6 @@
 import React from "react";
 import "./Carousel.js";
+import "./Carosel.scss";
 const images = [
   {
     src: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/690x300_Galaxy-S24_06%20(2).png",
