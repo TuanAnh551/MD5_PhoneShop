@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "@/components/HomePage/Navbar/Navbar";
-import Carousel from "@/components/HomePage/Carosel/Carousel";
-import Banners from "@components/HomePage/Banner/Banners";
-import ProductList from "@components/HomePage/Product/ProductList";
+import Navbar from "@pages/home/HomePage/Navbar/Navbar";
+import Carousel from "@pages/home/HomePage/Carosel/Carousel";
+import Banners from "@pages/home/HomePage/Banner/Banners";
+import ProductList from "@pages/home/HomePage/Product/ProductList";
 import "./HeroHeader.scss";
 
 function HeroHeader() {
