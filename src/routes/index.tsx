@@ -5,7 +5,8 @@ import Home from "@/pages/Home";
 import Cart from "@/pages/home/Cart/Cart";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OrderHistory from "@/pages/home/users/orderHistory/OrderHistory";
-import Login from "@/pages/logIn/LogIn";
+import LogIn from "@/pages/logIn/LogIn";
+
 import Register from "@/pages/logIn/Register";
 import Admin from "@/pages/admin/home/HomeAdmin";
 import Category from "@/pages/admin/category/CategoryAdmin";
@@ -19,6 +20,9 @@ import Delivered from "@/pages/admin/order/Delivered";
 import Waitting from "@/pages/admin/order/Waitting";
 import Cancel from "@/pages/admin/order/Cancel";
 
+import ProductDetail from "@/pages/home/ProductDetail/ProductDetail";
+
+
 export default function index() {
   return (
     <BrowserRouter>
@@ -26,6 +30,10 @@ export default function index() {
         <Route path="/" element={<Home></Home>}>
           <Route path="" element={<HeroHeader></HeroHeader>}></Route>
           <Route path="/cart" element={<Cart></Cart>}></Route>
+          <Route
+            path="/detail"
+            element={<ProductDetail></ProductDetail>}
+          ></Route>
         </Route>
         <Route path="/profile" element={<Profile></Profile>}>
           <Route
@@ -33,7 +41,7 @@ export default function index() {
             element={<OrderHistory></OrderHistory>}
           />
         </Route>
-        <Route path="/login" element={<Login></Login>} />
+        <Route path="/login" element={<LogIn></LogIn>} />
         <Route path="/register" element={<Register></Register>} />
         <Route path="/admin" element={<Admin></Admin>}>
           <Route path="/admin/category" element={<Category></Category>} />
