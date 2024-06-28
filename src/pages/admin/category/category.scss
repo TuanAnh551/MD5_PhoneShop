@@ -1,15 +1,15 @@
 .category-list {
   padding: 20px;
   font-family: Arial, sans-serif;
-}
 
-h1 {
-  color: #333;
-}
+  h1 {
+    color: #333;
+  }
 
-h2 {
-  color: #666;
-  margin-bottom: 20px;
+  h2 {
+    color: #666;
+    margin-bottom: 20px;
+  }
 }
 
 .add-category-btn {
@@ -22,24 +22,44 @@ h2 {
   margin-bottom: 20px;
 }
 
+.OderAdmin table thead, tbody  {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    width: 0% !important;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+} 
 table {
   width: 100%;
   border-collapse: collapse;
-}
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
+  th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
 
-tr:nth-child(even) {
-  background-color: #f9f9f9;
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
 }
 
 .edit-btn, .delete-btn {
@@ -64,22 +84,32 @@ tr:nth-child(even) {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+
+  button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+
+    &.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
 }
 
-.pagination button {
-  margin: 0 5px;
-  padding: 5px 10px;
-  border: 1px solid #ddd;
-  background-color: white;
-  cursor: pointer;
-}
-
-.pagination button.active {
-  background-color: #007bff;
-  color: white;
-}
-
-.pagination button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.order-filters {
+  button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 0px;
+  }
 }
