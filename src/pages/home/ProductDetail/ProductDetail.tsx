@@ -172,12 +172,21 @@ const ProductDetail = () => {
       <div className="product-details">
         <div className="features">
           <h2>ĐẶC ĐIỂM NỔI BẬT</h2>
-          <ul>
+          <ul
+            style={{
+              width: "800px",
+            }}
+          >
             {features
               .slice(0, showMoreFeatures ? features.length : 1)
               .map((feature, index) => (
                 <li key={index}>
-                  <img src={feature.image}></img>
+                  <img
+                    src={feature.image}
+                    style={{
+                      width: "750px",
+                    }}
+                  ></img>
                   <p>{feature.text}</p>
                 </li>
               ))}

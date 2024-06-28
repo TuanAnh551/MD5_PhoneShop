@@ -181,6 +181,15 @@ button.active {
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
+  h2 {
+    color: #d70018;
+    margin-bottom: 15px;
+  }
+
+  li {
+    margin-bottom: 10px;
+    list-style-type: none;
+  }
 }
 
 .specs {
@@ -189,35 +198,31 @@ button.active {
   margin-bottom: 20px;
   border-radius: 8px;
   width: 350px;
-}
+  h2 {
+    color: #d70018;
+    margin-bottom: 15px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  #table1 table,
+  tr,
+  td,
+  th {
+    border: 0;
+  }
 
-h2 {
-  color: #d70018;
-  margin-bottom: 15px;
-}
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
 
-ul {
-  padding-left: 20px;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-}
-
-td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-td:first-child {
-  font-weight: bold;
-  width: 40%;
+  td:first-child {
+    font-weight: bold;
+    width: 40%;
+  }
 }
 
 // button {
