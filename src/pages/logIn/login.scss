@@ -21,13 +21,14 @@
   background-color: #ffffff;
 }
 
+
 // Hình ảnh bên trái
 .containers {
   display: flex;
   gap: 20px;
   
   
-  /* Thêm các thuộc tính khác nếu cần */
+ 
 }
 
 .login {
@@ -47,10 +48,7 @@
   width: 51%;
   
 
-  /* Có thể cần điều chỉnh width và height tùy thuộc vào layout mong muốn */
-
-  background: url("/path/to/your/image.jpg") center center/cover no-repeat;
-
+ 
 
 }
 
