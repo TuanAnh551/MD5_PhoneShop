@@ -9,9 +9,7 @@
     
 }
 
-<<<<<<< HEAD
 
-=======
 // Container chính
 .container-login {
   display: flex;
@@ -22,7 +20,6 @@
   overflow: hidden;
   background-color: #ffffff;
 }
->>>>>>> 95cb7fd39c44a3de7bc2798487ae842ff507ef17
 
 // Hình ảnh bên trái
 .containers {
@@ -35,7 +32,7 @@
 
 .login {
   flex: 1;
-<<<<<<< HEAD
+
   border: 3px solid #ebb5b5eb;
   border-radius: 5px;
   padding: 20px;
@@ -51,9 +48,10 @@
   
 
   /* Có thể cần điều chỉnh width và height tùy thuộc vào layout mong muốn */
-=======
+
   background: url("/path/to/your/image.jpg") center center/cover no-repeat;
->>>>>>> 95cb7fd39c44a3de7bc2798487ae842ff507ef17
+
+
 }
 
 // Phần đăng nhập bên phải

@@ -5,6 +5,7 @@ import Home from "@/pages/Home";
 import Cart from "@/pages/home/Cart/Cart";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OrderHistory from "@/pages/home/users/orderHistory/OrderHistory";
+
 import LogIn from "@/pages/logIn/LogIn";
 
 import Register from "@/pages/logIn/Register";
@@ -21,6 +22,8 @@ import Waitting from "@/pages/admin/order/Waitting";
 import Cancel from "@/pages/admin/order/Cancel";
 
 import ProductDetail from "@/pages/home/ProductDetail/ProductDetail";
+
+
 
 
 export default function index() {
