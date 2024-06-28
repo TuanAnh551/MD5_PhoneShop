@@ -116,64 +116,66 @@ export default function All() {
       };
    return (
      <>
-       <table>
-         <thead>
-           <tr>
-             <th>ID</th>
-             <th>Name</th>
-             <th>Phone</th>
-             <th>Address</th>
-             <th>Total</th>
-             <th> Shipping Address</th>
-             <th>Payment Method</th>
-             <th>Order Status</th>
-             <th>Created At</th>
-             <th>Action</th>
-           </tr>
-         </thead>
-         <tbody>
-           {currentItems.map((product) => (
-             <tr key={product.id}>
-               <td>{product.id}</td>
-               <td>{product.name}</td>
-               <td>{product.receivePhone}</td>
-               <td>{product.receiveAddress}</td>
-               <td>{product.totalPrices}</td>
-               <td>{product.receiveAddress}</td>
-               <td>{product.receiveAddress}</td>
-               <td>{product.createdAt}</td>
-               <td>{product.status}</td>
-               <td>
-                 <button className="edit-btn">Edit</button>
-                 <button className="delete-btn">Delete</button>
-               </td>
+       <div className='OderAdmin'>
+         <table>
+           <thead>
+             <tr>
+               <th>ID</th>
+               <th>Name</th>
+               <th>Phone</th>
+               <th>Address</th>
+               <th>Total</th>
+               <th> Shipping Address</th>
+               <th>Payment Method</th>
+               <th>Order Status</th>
+               <th>Created At</th>
+               <th>Action</th>
              </tr>
-           ))}
-         </tbody>
-       </table>
+           </thead>
+           <tbody>
+             {currentItems.map((product) => (
+               <tr key={product.id}>
+                 <td>{product.id}</td>
+                 <td>{product.name}</td>
+                 <td>{product.receivePhone}</td>
+                 <td>{product.receiveAddress}</td>
+                 <td>{product.totalPrices}</td>
+                 <td>{product.receiveAddress}</td>
+                 <td>{product.receiveAddress}</td>
+                 <td>{product.createdAt}</td>
+                 <td>{product.status}</td>
+                 <td>
+                   <button className="edit-btn">Edit</button>
+                   <button className="delete-btn">Delete</button>
+                 </td>
+               </tr>
+             ))}
+           </tbody>
+         </table>
 
-       <div className="pagination">
-         <button
-           onClick={() => handlePageChange(currentPage - 1)}
-           disabled={currentPage === 1}
-         >
-           Previous
-         </button>
-         {Array.from({ length: totalPages }, (_, i) => (
+         <div className="pagination">
            <button
-             key={i + 1}
-             onClick={() => handlePageChange(i + 1)}
-             className={currentPage === i + 1 ? "active" : ""}
+             onClick={() => handlePageChange(currentPage - 1)}
+             disabled={currentPage === 1}
            >
-             {i + 1}
+             Previous
            </button>
-         ))}
-         <button
-           onClick={() => handlePageChange(currentPage + 1)}
-           disabled={currentPage === totalPages}
-         >
-           Next
-         </button>
+           {Array.from({ length: totalPages }, (_, i) => (
+             <button
+               key={i + 1}
+               onClick={() => handlePageChange(i + 1)}
+               className={currentPage === i + 1 ? "active" : ""}
+             >
+               {i + 1}
+             </button>
+           ))}
+           <button
+             onClick={() => handlePageChange(currentPage + 1)}
+             disabled={currentPage === totalPages}
+           >
+             Next
+           </button>
+         </div>
        </div>
      </>
    );
