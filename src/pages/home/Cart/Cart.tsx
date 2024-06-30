@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Cart.scss";
+import { useTranslation } from "react-i18next";
 
 interface Product {
   id: number;
@@ -68,12 +69,12 @@ const CartPage: React.FC = () => {
     .reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const anyItemSelected = cartItems.some((item) => item.selected);
-
+  const { t } = useTranslation();
   return (
     <div className="cart-page">
       <header>
         <button onClick={handleBackClick}>←</button>
-        <h1>Giỏ hàng của bạn</h1>
+        <h1>{t("mycart")}</h1>
       </header>
 
       {cartItems.map((item) => (
@@ -100,12 +101,14 @@ const CartPage: React.FC = () => {
       ))}
 
       <footer>
-        <p>Tạm tính: {totalPrice.toLocaleString()} đ</p>
+        <p>
+          {t("provisional")}: {totalPrice.toLocaleString()} đ
+        </p>
         <button
           className={anyItemSelected ? "active" : ""}
           disabled={!anyItemSelected}
         >
-          Mua ngay
+         {t("buy")}
         </button>
         {anyItemSelected && (
           <button className="delete">Xóa sản phẩm đã chọn</button>
