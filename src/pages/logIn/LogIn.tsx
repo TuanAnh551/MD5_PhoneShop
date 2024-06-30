@@ -1,7 +1,9 @@
 import React from "react";
 import "./login.scss";
+import { useTranslation } from "react-i18next";
 
 const Login: React.FC = () => {
+  const { t } = useTranslation();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   };
@@ -15,18 +17,18 @@ const Login: React.FC = () => {
             alt="Background"
           />
           <div className="login">
-            <h2>Login</h2>
+            <h2>{t("Login")}</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <input
                   type="text"
                   id="name"
                   name="name"
-                  placeholder="Nhập họ và tên"
+                  placeholder={t("name")}
                   required
                 />
                 <span className="error-message" style={{ color: "red" }}>
-                  Vui lòng không bỏ trống
+                  {t("Please")}
                 </span>
               </div>
               <div className="form-group">
@@ -38,11 +40,11 @@ const Login: React.FC = () => {
                   required
                 />
                 <span className="error-message" style={{ color: "red" }}>
-                  Vui lòng không bỏ trống
+                  {t("Please")}
                 </span>
               </div>
 
-              <button type="submit">Log in</button>
+              <button type="submit">{t("Login")}</button>
             </form>
 
             <div className="social-buttons">
@@ -51,9 +53,9 @@ const Login: React.FC = () => {
             </div>
 
             <div className="links">
-              <a href="#">Forgot your password?</a>
+              <a href="#">{t("Forgot")}</a>
               <br />
-              <a href="/register">Create account</a>
+              <a href="/register">{t("account")}</a>
             </div>
           </div>
         </div>

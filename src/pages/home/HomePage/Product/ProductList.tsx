@@ -2,6 +2,7 @@ import React from "react";
 
 import "./ProductList.scss";
 import ProductLayout from "@components/Product-layout/ProductLayout";
+import { useTranslation } from "react-i18next";
 
 // interface Product {
 //   id: number;
@@ -127,9 +128,10 @@ import ProductLayout from "@components/Product-layout/ProductLayout";
 // ];
 
 function ProductList() {
+  const { t } = useTranslation();
   return (
     <div className="product-list">
-      <h2>ĐIỆN THOẠI NỔI BẬT NHẤT</h2>
+      <h2>{t("telephone")}</h2>
       <div className="brand-filters">
         {[
           "Apple",

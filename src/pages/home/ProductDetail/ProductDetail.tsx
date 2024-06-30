@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarIcon from "@mui/icons-material/Star";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import BoltIcon from "@mui/icons-material/Bolt";
 import { Button } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -10,6 +9,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { Link } from "react-router-dom";
 
 import "./ProductDetail.scss";
+import { useTranslation } from "react-i18next";
 
 const ProductDetail = () => {
   const [showMoreFeatures, setShowMoreFeatures] = useState(false);
@@ -62,6 +62,7 @@ const ProductDetail = () => {
     { label: "Pin", value: "3240mAh" },
     { label: "Thẻ SIM", value: "2 SIM (nano‑SIM và eSIM)" },
   ];
+  const { t } = useTranslation();
   return (
     <>
       <div className="product-page">
@@ -76,7 +77,7 @@ const ProductDetail = () => {
           }}
         >
           <HomeIcon />
-          Về trang chủ
+          {t("home")}
         </Link>
         <h1>
           iPhone 13 128GB | Chính hãng VN/A
@@ -118,7 +119,7 @@ const ProductDetail = () => {
                 </button>
               ))}
             </div>
-            <p>Chọn màu để xem giá và chi nhánh có hàng</p>
+            <p>{t("color")}</p>
             <div className="color-options">
               {["Xanh lá", "Hồng", "Đen", "Trắng", "Xanh dương", "Đỏ"].map(
                 (color, index) => (
@@ -139,29 +140,17 @@ const ProductDetail = () => {
               <div className="current-price">13.690.000đ</div>
               <div className="old-price">18.990.000đ</div>
             </div>
-            <div className="installment-options">
-              <button className="momo">
-                <BoltIcon /> Trả Góp 0% Sản Phẩm Apple
-              </button>
-              <button className="credit-card">
-                Trả trước chỉ 50% | Kỳ Hạn 6 Tháng
-              </button>
-            </div>
 
             <div className="button-grid">
-              <button className="buy-now">
-                MUA NGAY <p>(Giao nhanh từ 2 giờ hoặc nhận tại cửa hàng)</p>
-              </button>
+              <button className="buy-now">{t("buynow")}</button>
 
-              <div className="installment">
-                <h3> TRẢ GÓP 0% </h3> <span>Trả trước chỉ từ 5.697.000đ</span>
-              </div>
-              <div className="visa-card">
-                <h3> TRẢ GÓP 0% QUA THẺ </h3>
-                <span>(Không phí chuyển đổi 3 - 6 tháng)</span>
-              </div>
               <button className="add-to-cart">
-                <ShoppingCartIcon /> Thêm vào giỏ
+                <Link
+                  to="/cart"
+                  style={{ textDecoration: "none", color: "red" }}
+                >
+                  <ShoppingCartIcon /> {t("addcart")}
+                </Link>
               </button>
             </div>
           </div>
@@ -171,12 +160,10 @@ const ProductDetail = () => {
       {/* detail --------------------------------------------------------------------------*/}
       <div className="product-details">
         <div className="features">
-          <h2>ĐẶC ĐIỂM NỔI BẬT</h2>
-          <ul
-            style={{
-              width: "800px",
-            }}
-          >
+
+          <h2>{t("about")}</h2>
+          <ul>
+
             {features
               .slice(0, showMoreFeatures ? features.length : 1)
               .map((feature, index) => (
@@ -206,12 +193,12 @@ const ProductDetail = () => {
               )
             }
           >
-            {showMoreFeatures ? "Thu gọn" : "Xem thêm"}
+            {showMoreFeatures ? t("less") : t("seemore")}
           </Button>
         </div>
 
         <div className="specs">
-          <h2>THÔNG SỐ KỸ THUẬT</h2>
+          <h2>{t("detail")}</h2>
           <table>
             <tbody>
               {specs
@@ -239,7 +226,7 @@ const ProductDetail = () => {
               )
             }
           >
-            {showMoreSpecs ? "Thu gọn" : "Xem thêm"}
+            {showMoreSpecs ? t("less") : t("seemore")}
           </Button>
         </div>
       </div>

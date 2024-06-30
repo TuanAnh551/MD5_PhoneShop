@@ -1,7 +1,9 @@
 import React from "react";
 import "./register.scss";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
+  const { t } = useTranslation();
   return (
     <div className="wrapper">
       <div className="signup-container">
@@ -12,18 +14,18 @@ export default function Register() {
           />
         </div>
         <div className="form-container">
-          <h2>Đăng ký với</h2>
+          <h2>{t("Register")}</h2>
           <form>
             <div className="form-group">
               <input
                 type="text"
                 id="name"
                 name="name"
-                placeholder="Nhập họ và tên"
+                placeholder={t("name")}
                 required
               />
               <span className="error-message" style={{ color: "red" }}>
-                Vui lòng không bỏ trống
+                {t("Please")}
               </span>
             </div>
             <div className="form-group">
@@ -31,11 +33,11 @@ export default function Register() {
                 type="number"
                 id="phone"
                 name="phone"
-                placeholder="Nhập số điện thoại"
+                placeholder={t("number")}
                 required
               />
               <span className="error-message" style={{ color: "red" }}>
-                Vui lòng không bỏ trống
+                {t("Please")}
               </span>
             </div>
             <div className="form-group">
@@ -43,7 +45,7 @@ export default function Register() {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="Nhập email (không bắt buộc)"
+                placeholder={t("emailenter")}
                 required
               />
             </div>
@@ -61,11 +63,11 @@ export default function Register() {
                 type="password"
                 id="password"
                 name="password"
-                placeholder="Nhập mật khẩu"
+                placeholder={t("password")}
                 required
               />
               <span className="error-message" style={{ color: "red" }}>
-                Vui lòng không bỏ trống
+                {t("Please")}
               </span>
             </div>
             <div className="form-group">
@@ -73,16 +75,16 @@ export default function Register() {
                 type="password"
                 id="confirm-password"
                 name="confirm-password"
-                placeholder="Nhập lại mật khẩu"
+                placeholder={t("confirm_password")}
                 required
               />
               <span className="error-message" style={{ color: "red" }}>
-                Vui lòng không bỏ trống
+                {t("Please")}
               </span>
             </div>
 
             <button type="submit" className="submit-btn">
-              Đăng ký
+              {t("Register")}
             </button>
           </form>
           <div className="social-signup">
@@ -93,9 +95,10 @@ export default function Register() {
               <i className="fab fa-twitter"></i> Zalo
             </button>
           </div>
+         
           <p className="login-link">
-            Bạn đã có tài khoản?
-            <a href="#">Đăng nhập ngay</a>
+            {t("already")}
+            <a href="/login">{t("Login")}</a>
           </p>
         </div>
       </div>

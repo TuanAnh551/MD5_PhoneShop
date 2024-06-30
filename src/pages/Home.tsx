@@ -1,35 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
 import Header from "./home/header/Header";
 import Footer from "./home/footer/Footer";
 export default function Home() {
-  const { i18n } = useTranslation(); // Destructure i18n from useTranslation
+  const { i18n } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+    useEffect(() => {
+      const currentLanguage = localStorage.getItem("lng") || "vi";
+      setSelectedLanguage(currentLanguage);
+      i18n.changeLanguage(currentLanguage);
+    }, [i18n]);
+    const handleLanguageChange = (event:any) => {
+      const newLanguage = event.target.value;
+      localStorage.setItem("lng", newLanguage);
+      i18n.changeLanguage(newLanguage);
+      setSelectedLanguage(newLanguage);
+    };
   return (
     <div className="home_page">
-      <Header/>
-       
-        <button
-          onClick={() => {
-            localStorage.setItem("lng", "en");
-            i18n.changeLanguage("en"); // Call changeLanguage on i18n
-          }}
-        >
-          en
-        </button>
-        <button
-          onClick={() => {
-            localStorage.setItem("lng", "vi");
-            i18n.changeLanguage("vi"); // Call changeLanguage on i18n
-          }}
-        >
-          vi
-        </button>
-      
+      <Header />
+
+      <select
+        className="form-select"
+        aria-label="Default select example"
+        value={selectedLanguage}
+        onChange={handleLanguageChange}
+      >
+        <option value="vi">VI</option>
+        <option value="en">EN</option>
+      </select>
+
       <div className="home_page_container">
         <Outlet></Outlet>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

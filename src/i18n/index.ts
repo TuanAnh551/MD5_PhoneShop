@@ -9,7 +9,7 @@ i18n.use(initReactI18next).init({
     vi: vi,
   },
   lng: localStorage.getItem("lng") || "",
-  fallbackLng: "en",
+  fallbackLng: "vi",
   interpolation: {
     escapeValue: false,
   },
