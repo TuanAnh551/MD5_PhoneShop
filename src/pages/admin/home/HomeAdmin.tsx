@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./home.scss"; // Đảm bảo bạn tạo file CSS riêng
 import { Link, Outlet } from "react-router-dom";
 
@@ -7,17 +7,51 @@ import { Link, Outlet } from "react-router-dom";
 
 
 const HomeAdmin: React.FC = () => {
+   const [selectedFilter, setSelectedFilter] = useState("admin");
+
+   const handleFilterClick = (filter: string) => {
+     setSelectedFilter(filter);
+   };
   return (
     <div className="admin-home">
       <aside className="sidebar">
         <h2>Xin chào admin</h2>
         <nav>
           <ul>
-            <li><Link to="/admin"> Home </Link></li>
-            <li > <Link to="/admin/category">Category List </Link></li>
-            <li><Link to="/admin/product"> Product List </Link></li>
-            <li> <Link to="/admin/user">User List </Link></li>
-            <li> <Link to="/admin/order/all">Order List </Link></li>
+            <li
+              className={selectedFilter === "admin" ? "selected" : ""}
+              onClick={() => handleFilterClick("admin")}
+            >
+              <Link to="/admin">Home</Link>
+            </li>
+
+            <li
+              className={selectedFilter === "category" ? "selected" : ""}
+              onClick={() => handleFilterClick("category")}
+            >
+              {" "}
+              <Link to="/admin/category">Category List </Link>
+            </li>
+            <li
+              className={selectedFilter === "product" ? "selected" : ""}
+              onClick={() => handleFilterClick("product")}
+            >
+              <Link to="/admin/product"> Product List </Link>
+            </li>
+            <li
+              className={selectedFilter === "user" ? "selected" : ""}
+              onClick={() => handleFilterClick("user")}
+            >
+              {" "}
+              <Link to="/admin/user">User List </Link>
+            </li>
+            <li
+              className={selectedFilter === "order" ? "selected" : ""}
+              onClick={() => handleFilterClick("order")}
+            >
+              {" "}
+              <Link to="/admin/order/all">Order List </Link>
+            </li>
           </ul>
         </nav>
       </aside>

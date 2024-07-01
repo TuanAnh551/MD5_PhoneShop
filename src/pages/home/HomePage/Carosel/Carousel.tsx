@@ -55,7 +55,21 @@ const images = [
     src: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/tai-nghe-tour-pro-sliding-25-6-2024.jpg",
     thumb: "img_lights.jpg",
     alt: "Northern Lights",
-    des: "TOUR PRO 2", 
+    des: "TOUR PRO 2",
+    dest: "Giá sốc mua ngay",
+  },
+  {
+    src: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/tai-nghe-chup-tai-marshall-major-5-home-26-6-2024.jpg",
+    thumb: "img_lights.jpg",
+    alt: "Northern Lights",
+    des: "MẢRSHALL MAJOR 5",
+    dest: "Giá chỉ 4.99 triệu",
+  },
+  {
+    src: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/tai-nghe-tour-pro-sliding-25-6-2024.jpg",
+    thumb: "img_lights.jpg",
+    alt: "Northern Lights",
+    des: "TOUR PRO 2",
     dest: "Giá sốc mua ngay",
   },
 ];
@@ -78,7 +92,7 @@ function Carousel() {
    useEffect(() => {
      const interval = setInterval(() => {
        plusSlides(1);
-     }, 3000); // Change slide every 5 seconds
+     }, 5000); // Change slide every 5 seconds
 
      return () => clearInterval(interval); // Cleanup on component unmount
    }, [currentSlide]);

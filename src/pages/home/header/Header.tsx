@@ -73,9 +73,9 @@ const Header: React.FC = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+           
           </IconButton>
-          <Button color="inherit">{t("Danhmuc")}</Button>
+          <Button  color="inherit">  <MenuIcon />{t("Danhmuc")}</Button>
           <Button color="inherit">{t("xemgia")}</Button>
           <Search>
             <SearchIconWrapper>
