@@ -70,5 +70,6 @@ export default {
     color: "Select color to see price",
     buynow: "BUY NOW",
     addcart: "Add to cart",
+    confirmPassword: "Passwords do not match",
   },
 };
