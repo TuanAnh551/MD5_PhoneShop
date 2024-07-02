@@ -19,6 +19,15 @@ export default defineConfig({
       scss: { additionalData: `@import "src/scss/index.scss";` },
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:1234', // Địa chỉ của server backend của bạn
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  },
   /* Config Alias */
   resolve: {
     alias: {

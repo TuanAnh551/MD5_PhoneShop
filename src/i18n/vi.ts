@@ -69,5 +69,6 @@ export default {
     color: "Chọn màu để xem giá",
     buynow: "MUA NGAY",
     addcart: "Thêm vào giỏ",
+    confirmPassword: "Mật khẩu không khớp",
   },
 };
