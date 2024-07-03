@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import "./register.scss";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { Dialog } from "@mui/material";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import { showToast } from "../../util/toast.ts";
 
 export default function Register() {
   const { t } = useTranslation();
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+
   const [touched, setTouched] = useState({
     userName: false,
     phone: false,
@@ -42,38 +50,10 @@ export default function Register() {
           "Content-Type": "application/json",
         },
       });
-      console.log(res.data);
-      // Xử lý sau khi đăng ký thành công, ví dụ:
-      // showSuccessMessage();
-      // redirectToLogin();
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        // Check if the error response has a data property
-        if (error.response.data) {
-          // If the data property is a string, display it directly
-          if (typeof error.response.data === "string") {
-            setError(error.response.data);
-          }
-          // If the data property is an object, try to display its 'message' property
-          else if (
-            typeof error.response.data === "object" &&
-            error.response.data.message
-          ) {
-            setError(error.response.data.message);
-          }
-          // If the data property is neither a string nor an object with a 'message' property, display a generic error message
-          else {
-            setError(t("t"));
-          }
-        }
-        // If the error response does not have a data property, display a generic error message
-        else {
-          setError(t("b"));
-        }
-        console.log(error);
-      } else {
-        setError(t("c"));
-      }
+      console.log(res);
+      setSuccessDialogOpen(true);
+    } catch (errors) {
+      showToast.error(errors.response.data.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -82,9 +62,13 @@ export default function Register() {
     const { name } = e.target; // Sửa đổi ở đây để lấy tên của trường input
     setTouched({ ...touched, [name]: true });
   };
+  const handleCloseSuccessDialog = () => {
+    setSuccessDialogOpen(false);
+  };
 
   return (
     <div className="wrapper">
+      <div id="fui-toast"></div>
       <div className="signup-container">
         <div className="image-container">
           <img
@@ -98,7 +82,7 @@ export default function Register() {
             <div className="form-group">
               <input
                 type="text"
-                id="name"
+                id="userName"
                 name="userName"
                 placeholder={t("name")}
                 value={formData.userName}
@@ -106,6 +90,7 @@ export default function Register() {
                 onBlur={handleBlur}
                 required
               />
+
               {touched.userName && !formData.userName && (
                 <span className="error-message" style={{ color: "red" }}>
                   {t("Please")}
@@ -123,6 +108,7 @@ export default function Register() {
                 onBlur={handleBlur}
                 required
               />
+
               {touched.phone && !formData.phone && (
                 <span className="error-message" style={{ color: "red" }}>
                   {t("Please")}
@@ -139,6 +125,7 @@ export default function Register() {
                 onChange={handleChange}
                 required
               />
+
               {touched.email && !formData.email && (
                 <span className="error-message" style={{ color: "red" }}>
                   {t("Please")}
@@ -168,6 +155,7 @@ export default function Register() {
                 onBlur={handleBlur}
                 required
               />
+
               {touched.password && !formData.password && (
                 <span className="error-message" style={{ color: "red" }}>
                   {t("Please")}
@@ -202,7 +190,7 @@ export default function Register() {
               className="submit-btn"
               disabled={isSubmitting}
             >
-              {isSubmitting ? t("Registering...") : t("Register")}
+              {isSubmitting ? t("helloo") : t("Register")}
             </button>
           </form>
           <div className="social-signup">
@@ -220,6 +208,23 @@ export default function Register() {
           </p>
         </div>
       </div>
+      <Dialog open={successDialogOpen} onClose={handleCloseSuccessDialog}>
+        <DialogTitle>Registration Successful</DialogTitle>
+        <DialogContent>
+          <p>You have successfully registered.</p>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            component="a"
+            href="https://mail.google.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Tới gmail để xác thực
+          </Button>
+          <Button onClick={handleCloseSuccessDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
