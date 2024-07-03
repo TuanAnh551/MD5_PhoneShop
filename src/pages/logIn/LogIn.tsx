@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./login.scss";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+
 import { showToast } from "../../util/toast.ts";
 
 
@@ -16,6 +17,7 @@ const Login: React.FC = () => {
     name: "",
     password: "",
   });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Example login data, replace with actual data from your form
@@ -42,6 +44,7 @@ const Login: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name } = e.target; // Sửa đổi ở đây để lấy tên của trường input
     setTouched({ ...touched, [name]: true });
@@ -94,7 +97,7 @@ const Login: React.FC = () => {
                   </span>
                 )}
               </div>
-
+                
               <button type="submit">{t("Login")}</button>
             </form>
 

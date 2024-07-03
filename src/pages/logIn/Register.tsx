@@ -7,7 +7,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+
 import { showToast } from "../../util/toast.ts";
+
 
 export default function Register() {
   const { t } = useTranslation();
@@ -51,7 +53,9 @@ export default function Register() {
         },
       });
       console.log(res);
+
       setSuccessDialogOpen(true);
+
     } catch (errors) {
       showToast.error(errors.response.data.message);
     } finally {
