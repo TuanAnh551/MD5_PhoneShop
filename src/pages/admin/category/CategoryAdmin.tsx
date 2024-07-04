@@ -1,124 +1,136 @@
 import React, { useState } from "react";
 import "./category.scss";
-import { Category } from "@/stores/slices/category.slice";
+
 import { useSelector } from "react-redux";
 import { StoreType } from "@/stores/slices";
+import axios from "axios";
+import apis from "@/apis";
 
 const CategoryAdmin: React.FC = () => {
   const categoryStore = useSelector((store: StoreType) => {
     return store.categoryStore;
   });
 
-  // const [showModal, setShowModal] = useState(false);
+  // Add category
+  const [showModal, setShowModal] = useState(false);
 
-  // const handleOpenModal = () => {
-  //   setShowModal(true);
-  // };
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
 
-  // const handleCloseModal = () => {
-  //   setShowModal(false);
-  // };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = {
+      name: formData.get("name"),
+      description: formData.get("description"),
+    };
+    //gọi axios
+    apis.category
+      .add(data)
+      .then((response) => {
+        console.log("Category added:", response.data);
+        handleCloseModal(); // Close the modal on success
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error adding category:", error);
+      });
+
+    // axios
+    //   .post(`${import.meta.env.VITE_SV}/admin/category/add`, data)
+    //   .then((response) => {
+    //     console.log("Category added:", response.data);
+    //     handleCloseModal(); // Close the modal on success
+    //     // Optionally, refresh the list of categories or navigate as needed
+    //     window.location.reload();
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error adding category:", error);
+    //     // Handle error (e.g., show an error message)
+    //   });
+  };
 
   // Delete category
-  // function handleDelete(id: number) {
-  //   axios
-  //     .post(`/api/admin/category/delete/${id}`)
-  //     .then(() => {
-  //       // Update the categories state after successful deletion
-  //       setCategories((prevCategories) =>
-  //         prevCategories.filter((category) => category.id !== id)
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.error("There was an error deleting the category:", error);
-  //     });
-  // }
+  function handleDelete(id: number) {
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa không?");
+    if (isConfirmed) {
+      apis.category
+        .delete(id)
+        .then((response) => {
+          console.log("Category deleted:", response.data);
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error deleting category:", error);
+        });
+    }
+  }
 
-  // Add category
+  // ----------Edit category-------------------------------
 
-  // const handleSubmit = (event: any) => {
-  //   event.preventDefault(); // Prevent the default form submission behavior
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  //   // Gather form data
-  //   const formData = new FormData(event.target);
-  //   const data = {
-  //     name: formData.get("name"), // Assuming 'name' is the name attribute of your input
-  //     description: formData.get("description"), // Assuming 'description' is the name attribute of your textarea
-  //   };
+  const convertStatusToBoolean = (status: unknown) => {
+    return status === "active"; // Trả về true nếu status là 'active', ngược lại trả về false
+  };
 
-  //   axios
-  //     .post("/api/admin/category/add", data)
-  //     .then((response) => {
-  //       console.log("Category added:", response.data);
-  //       handleCloseModal(); // Close the modal on success
-  //       // Optionally, refresh the list of categories or navigate as needed
-  //       window.location.reload();
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error adding category:", error);
-  //       // Handle error (e.g., show an error message)
-  //     });
-  // };
+  const closeModalEdit = () => {
+    setIsModalVisible(false);
+  };
 
-  // ----------------------------------------------Edit category----------------------------------------------
+  const handleEdit = (event: any) => {
+    event.preventDefault(); // Prevent the default form submission behavior
 
-  // const [isModalVisible, setIsModalVisible] = useState(false);
+    // Gather form data
+    const formData = new FormData(event.target);
+    const data = {
+      id: formData.get("id"),
+      name: formData.get("name"),
+      description: formData.get("description"),
+      status: convertStatusToBoolean(formData.get("status")),
+    };
 
-  // const convertStatusToBoolean = (status: unknown) => {
-  //   return status === "active"; // Trả về true nếu status là 'active', ngược lại trả về false
-  // };
-
-  // const closeModalEdit = () => {
-  //   setIsModalVisible(false);
-  // };
-
-  // const handleEdit = (event: any) => {
-  //   event.preventDefault(); // Prevent the default form submission behavior
-
-  //   // Gather form data
-  //   const formData = new FormData(event.target);
-  //   const data = {
-  //     id: formData.get("id"),
-  //     name: formData.get("name"),
-  //     description: formData.get("description"),
-  //     status: convertStatusToBoolean(formData.get("status")),
-  //   };
-
-  //   axios
-  //     .post(`/api/admin/category/update`, data)
-  //     .then((response) => {
-  //       console.log("Category edited:", response.data);
-  //       closeModalEdit(); // Close the modal on success
-  //       // Optionally, refresh the list of categories or navigate as needed
-  //       window.location.reload();
-  //     })
-  //     .catch((error) => {
-  //       if (error.response) {
-  //         // The request was made and the server responded with a status code
-  //         // that falls out of the range of 2xx
-  //         console.error("Error editing category:", error.response.data);
-  //         console.error("Status code:", error.response.status);
-  //         console.error("Headers:", error.response.headers);
-  //       } else if (error.request) {
-  //         // The request was made but no response was received
-  //         console.error(
-  //           "Error editing category: No response received",
-  //           error.request
-  //         );
-  //       } else {
-  //         // Something happened in setting up the request that triggered an Error
-  //         console.error("Error editing category:", error.message);
-  //       }
-  //     });
-  // };
+    apis.category
+      .edit(data)
+      .then((response) => {
+        console.log("Category edited:", response.data);
+        closeModalEdit(); // Close the modal on success
+        // Optionally, refresh the list of categories or navigate as needed
+        window.location.reload();
+      })
+      .catch((error) => {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error("Error editing category:", error.response.data);
+          console.error("Status code:", error.response.status);
+          console.error("Headers:", error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error(
+            "Error editing category: No response received",
+            error.request
+          );
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error editing category:", error.message);
+        }
+      });
+  };
 
   return (
     <div className="category-list">
       <h1>CATEGORY</h1>
       <h2>Tất cả các Danh mục</h2>
 
-      <button className="add-category-btn">Add Category</button>
-      {/* {showModal && (
+      <button className="add-category-btn" onClick={handleOpenModal}>
+        Add Category
+      </button>
+      {showModal && (
         <div className="modal">
           <form onSubmit={handleSubmit}>
             <h2>Add Category</h2>
@@ -139,7 +151,7 @@ const CategoryAdmin: React.FC = () => {
             </button>
           </form>
         </div>
-      )} */}
+      )}
 
       <table>
         <thead>
@@ -157,14 +169,17 @@ const CategoryAdmin: React.FC = () => {
               <td>{category.id}</td>
               <td>{category.name}</td>
               <td>{category.description}</td>
-              <td>{category.status ? "Active" : "Inactive"}</td>
+              <td>{category.status ? "Đang bán" : "Hết hàng"}</td>
               <td>
-                <button className="edit-btn">
-                  {" "}
-                  {/* Example category ID */}
+                <button
+                  className="edit-btn"
+                  onClick={() => {
+                    setIsModalVisible(true);
+                  }}
+                >
                   Edit
                 </button>
-                {/* {isModalVisible && (
+                {isModalVisible && (
                   <div className="modal">
                     <form onSubmit={handleEdit}>
                       <h2>Edit Category</h2>
@@ -195,7 +210,7 @@ const CategoryAdmin: React.FC = () => {
                       <select
                         name="status"
                         id="status"
-                        defaultValue={category.status}
+                        defaultValue={category.status ? "active" : "inactive"}
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -208,14 +223,21 @@ const CategoryAdmin: React.FC = () => {
                       </button>
                     </form>
                   </div>
-                )} */}
+                )}
                 {/* <button
                   className="delete-btn"
                   onClick={() => handleDelete(category.id)}
                 >
                   Delete
                 </button> */}
-                <button className="delete-btn">Delete</button>
+                <button
+                  className="delete-btn"
+                  onClick={() => {
+                    handleDelete(category.id);
+                  }}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

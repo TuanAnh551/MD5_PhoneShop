@@ -4,13 +4,16 @@ import {
   categoryAction,
   categoryReducer,
 } from "./category.slices";
+import { UserState, userActions, userReducer } from "./user.slice";
 
 export type StoreType = {
   categoryStore: CategoryState;
+  userStore: UserState;
 };
 
 const rootReducer = combineReducers({
   categoryStore: categoryReducer,
+  userStore: userReducer,
 });
 
 const store = configureStore({
@@ -18,5 +21,5 @@ const store = configureStore({
 });
 
 store.dispatch(categoryAction.findAllThunk());
-
+store.dispatch(userActions.getUserData());
 export default store;

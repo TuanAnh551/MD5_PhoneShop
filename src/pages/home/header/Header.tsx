@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import "./header.scss";
 import { Link } from "react-router-dom";
 import { Button, Modal, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { StoreType } from "@/stores/slices";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,6 +55,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header: React.FC = () => {
+  const userStore = useSelector((store: StoreType) => {
+    return store.userStore;
+  });
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -72,10 +77,12 @@ const Header: React.FC = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-          >
-           
-          </IconButton>
-          <Button  color="inherit">  <MenuIcon />{t("Danhmuc")}</Button>
+          ></IconButton>
+          <Button color="inherit">
+            {" "}
+            <MenuIcon />
+            {t("Danhmuc")}
+          </Button>
           <Button color="inherit">{t("xemgia")}</Button>
           <Search>
             <SearchIconWrapper>
@@ -93,9 +100,13 @@ const Header: React.FC = () => {
             <Link to="/cart">{t("cart")}</Link>
           </Button>
 
-          <Button color="inherit" onClick={handleOpen} className="button">
-            {t("login")}
-          </Button>
+          {userStore.data == null ? (
+            <Button color="inherit" onClick={handleOpen} className="button">
+              {t("login")}
+            </Button>
+          ) : (
+            <>{userStore.data?.userName} </>
+          )}
           <Modal
             open={open}
             onClose={handleClose}
@@ -116,6 +127,7 @@ const Header: React.FC = () => {
               />
 
               <p className="smember-modal__message">{t("model")}</p>
+
               <div className="smember-modal__buttons">
                 <a
                   href="/register"
