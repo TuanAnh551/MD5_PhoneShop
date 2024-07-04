@@ -1,3 +1,5 @@
+import { create } from "node_modules/axios/index.d.cts";
+
 export default {
   translation: {
     Danhmuc: "Danh mục",
@@ -70,5 +72,78 @@ export default {
     buynow: "MUA NGAY",
     addcart: "Thêm vào giỏ",
     confirmPassword: "Mật khẩu không khớp",
+
+    //admin
+    hello: "Xin chào",
+    homes: "Trang chủ",
+    category: "Danh mục",
+    product: "Sản phẩm",
+    user: "Người dùng",
+    orders: "Đơn hàng",
+    close: "Đóng",
+    add: "Thêm",
+    save: "Lưu",
+    edit: "Sửa",
+    delete: "Xóa",
+
+    //category
+    allCategory: "Tất cả danh mục",
+    idCategory: "Mã danh mục",
+    nameCategory: "Tên danh mục",
+    descriptionCategory: "Mô tả",
+    statusCategory: "Trạng thái",
+    actionCategory: "Hành động",
+    addCategory: "Thêm danh mục",
+    editCategory: "Sửa danh mục",
+    deleteCategory: "Xóa danh mục",
+
+    //product
+    allProduct: "Tất cả sản phẩm",
+    idProduct: "Mã sản phẩm",
+    nameProduct: "Tên sản phẩm",
+    priceProduct: "Giá",
+    imageProduct: "Hình ảnh",
+    descriptionProduct: "Mô tả",
+    quantityProduct: "Số lượng",
+    createDateProduct: "Ngày tạo",
+    updateDateProduct: "Ngày cập nhật",
+    categoryProduct: "Danh mục",
+    statusProduct: "Trạng thái",
+    actionProduct: "Hành động",
+    addProduct: "Thêm sản phẩm",
+    editProduct: "Sửa sản phẩm",
+    deleteProduct: "Xóa sản phẩm",
+
+    //user
+    allUser: "Tất cả người dùng",
+    idUser: "Mã người dùng",
+    nameUser: "Tên người dùng",
+    emailUser: "Email",
+    phoneUser: "Số điện thoại",
+    addressUser: "Địa chỉ",
+    roleUser: "Vai trò",
+    statusUser: "Trạng thái",
+    actionUser: "Hành động",
+    blockUser: "Chặn",
+    activateUser: "Kích hoạt",
+
+    //order
+    allOrder: "Tất cả đơn hàng",
+    idOrder: "Mã đơn hàng",
+    nameOrder: "Tên người đặt",
+    phoneOrder: "Số điện thoại",
+    addressOrder: "Địa chỉ",
+    totalOrder: "Tổng tiền",
+    shippingAddressOrder: "Địa chỉ giao hàng",
+    paymentMethod: "Phương thức thanh toán",
+    statusOrder: "Trạng thái",
+    actionOrder: "Hành động",
+    createDateOrder: "Ngày tạo",
+    totalOrderList: "Tất cả",
+    pendingOrderList: "Chờ xác nhận",
+    confirmOrderList: "Đã xác nhận",
+    shippingOrderList: "Đang vận chuyển",
+    completeOrderList: "Đã giao",
+    cancelOrderList: "Đã hủy",
   },
 };

@@ -7,7 +7,6 @@ import {
 
 import { UserState, userActions, userReducer } from "./user.slices";
 
-
 export type StoreType = {
   categoryStore: CategoryState;
   userStore: UserState;

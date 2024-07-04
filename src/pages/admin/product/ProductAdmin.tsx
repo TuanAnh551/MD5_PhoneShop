@@ -4,7 +4,11 @@ import "../category/category.scss";
 import axios from "axios";
 import { formatVNCurrency } from "../../../util/currency";
 import "./product.scss";
+
 import { Link, Outlet } from "react-router-dom";
+
+import { useTranslation } from "react-i18next";
+
 
 interface Product {
   id: number;
@@ -72,11 +76,13 @@ const ProductAdmin: React.FC = () => {
         }
       });
   };
-
+  //translation
+  const { t } = useTranslation();
   return (
     <div className="category-list">
-      <h1>Product</h1>
-      <h2>Tất cả các sản phẩm</h2>
+      <h1>{t("product")}</h1>
+      <h2>{t("allProduct")}</h2>
+
 
       <button className="add-category-btn">
         <Link className="link-add-category" to="add">
@@ -84,19 +90,64 @@ const ProductAdmin: React.FC = () => {
         </Link>
       </button>
 
+      <button className="add-category-btn" onClick={handleOpenModal}>
+        {t("addProduct")}
+      </button>
+      {modelAddProduct && (
+        <div className="modal-product">
+          <form onSubmit={handleAddProduct}>
+            <h2>{t("addProduct")}</h2>
+            <label htmlFor="name">{t("nameProduct")}</label>
+            <input type="text" id="name" name="name" required />
+            <label htmlFor="image">{t("imageProduct")}</label>
+            <input type="file" id="image" name="image" />
+            <label htmlFor="description">{t("descriptionProduct")}</label>
+            <textarea
+              name="description"
+              id="description"
+              cols={30}
+              rows={10}
+            ></textarea>
+            <label htmlFor="category">{t("categoryProduct")}</label>
+            <select id="category" name="category" required>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="price">{t("priceProduct")}</label>
+            <input type="number" id="price" name="price" required />
+            <label htmlFor="quantity">{t("quantityProduct")}</label>
+            <input type="number" id="quantity" name="quantity" required />
+            <label htmlFor="createDate">{t("createDateProduct")}</label>
+            <input type="date" id="createDate" name="createDate" required />
+            <label htmlFor="updateDate">{t("updateDateProduct")}</label>
+            <input type="date" id="updateDate" name="updateDate" required />
+            <button type="button" onClick={handleCloseModal}>
+              {t("close")}
+            </button>
+            <button type="submit" className="btn btn-primary">
+              {t("add")}
+            </button>
+          </form>
+        </div>
+      )}
+
+
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Created At</th>
-            <th>Update At</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th>{t("idProduct")}</th>
+            <th>{t("nameProduct")}</th>
+            <th>{t("imageProduct")}</th>
+            <th>{t("descriptionProduct")}</th>
+            <th>{t("categoryProduct")}</th>
+            <th>{t("priceProduct")}</th>
+            <th>{t("createDateProduct")}</th>
+            <th>{t("updateDateProduct")}</th>
+            <th>{t("statusProduct")}</th>
+            <th>{t("actionProduct")}</th>
           </tr>
         </thead>
         <tbody>
@@ -120,8 +171,8 @@ const ProductAdmin: React.FC = () => {
               <td>{products.updateDate.split("T")[0]}</td>
               <td>{products.status ? "Active" : "Inactive"}</td>
               <td>
-                <button className="edit-btn">Edit</button>
-                <button className="delete-btn">Delete</button>
+                <button className="edit-btn">{t("edit")}</button>
+                <button className="delete-btn">{t("delete")}</button>
               </td>
             </tr>
           ))}
