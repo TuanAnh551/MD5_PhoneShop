@@ -34,22 +34,22 @@ const ProductAdmin: React.FC = () => {
   };
 
   //show product----------------
-  useEffect(() => {
-    axios
-      .get("/api/admin/product")
-      .then((response) => {
-        const formattedProducts = response.data.map((product: any) => ({
-          ...product,
-          image: product.images[0] || "", // Lấy hình ảnh đầu tiên hoặc chuỗi rỗng nếu không có hình ảnh
-          Category: product.category, // Đảm bảo tên trường phù hợp, ví dụ: từ 'Category' sang 'category' nếu cần
-        }));
-        setProduct(formattedProducts);
-        console.log("productShow", formattedProducts);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the product:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("/api/admin/product")
+  //     .then((response) => {
+  //       const formattedProducts = response.data.map((product: any) => ({
+  //         ...product,
+  //         image: product.images[0] || "", // Lấy hình ảnh đầu tiên hoặc chuỗi rỗng nếu không có hình ảnh
+  //         Category: product.category, // Đảm bảo tên trường phù hợp, ví dụ: từ 'Category' sang 'category' nếu cần
+  //       }));
+  //       setProduct(formattedProducts);
+  //       console.log("productShow", formattedProducts);
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error fetching the product:", error);
+  //     });
+  // }, []);
 
   //add product----------------
   const [modelAddProduct, setModelAddProduct] = useState(false);
