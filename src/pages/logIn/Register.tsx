@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./register.scss";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
 import { Dialog } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 
 import { showToast } from "../../util/toast.ts";
+import apis from "@/apis/index.ts";
 
 
 export default function Register() {
@@ -47,17 +47,15 @@ export default function Register() {
     }
     setIsSubmitting(true);
     try {
-      const res = await axios.post("/api/api/register", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(res);
+      const response = await apis.register.registerApi(formData);
+      showToast.success(response.data.message);
+      console.log(response);
 
-      setSuccessDialogOpen(true);
-
-    } catch (errors) {
-      showToast.error(errors.response.data.message);
+      setTimeout(() => {
+        setSuccessDialogOpen(true);
+      }, 3000); 
+    } catch (err) {
+      showToast.error(err.response.data.message);
     } finally {
       setIsSubmitting(false);
     }

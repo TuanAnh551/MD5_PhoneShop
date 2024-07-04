@@ -4,7 +4,9 @@ import {
   categoryAction,
   categoryReducer,
 } from "./category.slices";
-import { UserState, userActions, userReducer } from "./user.slice";
+
+import { UserState, userActions, userReducer } from "./user.slices";
+
 
 export type StoreType = {
   categoryStore: CategoryState;
@@ -21,5 +23,10 @@ const store = configureStore({
 });
 
 store.dispatch(categoryAction.findAllThunk());
+<<<<<<< HEAD
+=======
+
+store.dispatch(categoryAction.findAllThunk());
+>>>>>>> af27ab0 (user)
 store.dispatch(userActions.getUserData());
 export default store;

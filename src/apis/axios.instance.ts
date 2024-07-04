@@ -2,12 +2,14 @@ import axios from "axios";
 
 (axios as any).defaults.headers = {
   "Content-Type": "application/json",
+
   "Accept": "application/json",
   "Cache-Control": "no-cache, no-store, must-revalidate",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Credentials": true,
   "lng": localStorage.getItem("lng") ?? "en",
   "token": String(localStorage.getItem("token"))
+
 };
 
 axios.interceptors.request.use(
@@ -20,4 +22,6 @@ axios.interceptors.request.use(
   }
 );
 
+
 export default axios;
+

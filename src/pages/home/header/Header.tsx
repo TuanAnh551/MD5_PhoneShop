@@ -11,7 +11,7 @@ import { styled, alpha } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 // SCSS styles
 import "./header.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { StoreType } from "@/stores/slices";
@@ -55,13 +55,32 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header: React.FC = () => {
-  const userStore = useSelector((store: StoreType) => {
-    return store.userStore;
-  });
+
+   const navigate = useNavigate();
+   
+   const userStore = useSelector((store: StoreType) => {
+     return store.userStore;
+   });
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleUserOptionChange = (event: { target: { value: unknown; }; }) => {
+    const value = event.target.value;
+    if (value === "logout") {
+      // Đăng xuất
+      // Xoá token, xoá thông tin user
+      // Chuyển hướng về trang chủ
+      localStorage.removeItem("token");
+      window.location.href = "/";
+
+    } else if (value === "profile") {
+      // Điều hướng đến trang hồ sơ
+      navigate("/profile"); // Giả sử sử dụng hàm navigate từ react-router-dom
+    }
+  };
 
   const { t } = useTranslation();
   return (
@@ -105,8 +124,22 @@ const Header: React.FC = () => {
               {t("login")}
             </Button>
           ) : (
-            <>{userStore.data?.userName} </>
+
+            <>
+              <select
+               
+                onChange={handleUserOptionChange}
+              >
+                <option disabled selected>
+                  {userStore.data?.userName}
+                </option>
+                <option value="profile">{t("profile")}</option>
+                <option value="logout">{t("logout")}</option>
+              </select>
+            </>
           )}
+
+
           <Modal
             open={open}
             onClose={handleClose}

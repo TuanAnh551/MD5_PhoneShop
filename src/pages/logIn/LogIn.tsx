@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./login.scss";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
-
 import { showToast } from "../../util/toast.ts";
+import apis from "@/apis/index.ts";
 
 
 
@@ -25,18 +24,16 @@ const Login: React.FC = () => {
       loginId: formData.name, // Replace with actual username field
       password: formData.password, // Replace with actual password field
     };
-
     try {
-      const response = await axios.post("/api/api/login", loginData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // Gọi apis.login.loginApi với loginData
+      const response = await apis.login.loginApi(loginData);
       console.log(response.data);
       localStorage.setItem("token", response.data.token);
       window.location.href = "/";
       showToast.success(response.data.message);
     } catch (err) {
+      // Lỗi sẽ được bắt ở đây nếu có
+      console.log(err);
       showToast.error(err.response.data.message);
       // Handle error, e.g., show error message
     }
