@@ -22,8 +22,9 @@ export const categoryApi = {
       data
     );
   },
-
-  //   async findAll() {
-  //     return await axios.get(`${import.meta.env.VITE_SV}/admin/category`);
-  //   },
+  categoryPro: async () => {
+    return await axios.get(
+      `${import.meta.env.VITE_SV}/admin/product/category`
+    );
+  },
 };

@@ -20,7 +20,7 @@ import Success from "@/pages/admin/order/Success";
 import Delivered from "@/pages/admin/order/Delivered";
 import Waitting from "@/pages/admin/order/Waitting";
 import Cancel from "@/pages/admin/order/Cancel";
-
+import AddProduct from "@/pages/admin/product/AddProduct";
 import ProductDetail from "@/pages/home/ProductDetail/ProductDetail";
 
 
@@ -52,6 +52,8 @@ export default function index() {
             path="/admin/product"
             element={<ProductAdmin></ProductAdmin>}
           />
+          <Route path="/admin/product/add" element={<AddProduct></AddProduct>} />
+
           <Route path="/admin/user" element={<UserAdmin></UserAdmin>} />
           <Route path="/admin/order" element={<OrderAdmin></OrderAdmin>}>
             <Route path="/admin/order/all" element={<All></All>} />
