@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { StoreType } from "@/stores/slices";
 import axios from "axios";
 import apis from "@/apis";
+import { Category } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const CategoryAdmin: React.FC = () => {
   const categoryStore = useSelector((store: StoreType) => {
@@ -39,19 +41,6 @@ const CategoryAdmin: React.FC = () => {
       .catch((error) => {
         console.error("Error adding category:", error);
       });
-
-    // axios
-    //   .post(`${import.meta.env.VITE_SV}/admin/category/add`, data)
-    //   .then((response) => {
-    //     console.log("Category added:", response.data);
-    //     handleCloseModal(); // Close the modal on success
-    //     // Optionally, refresh the list of categories or navigate as needed
-    //     window.location.reload();
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error adding category:", error);
-    //     // Handle error (e.g., show an error message)
-    //   });
   };
 
   // Delete category
@@ -73,13 +62,27 @@ const CategoryAdmin: React.FC = () => {
   // ----------Edit category-------------------------------
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const convertStatusToBoolean = (status: unknown) => {
-    return status === "active"; // Trả về true nếu status là 'active', ngược lại trả về false
-  };
-
+  const [categoryEdit, setCategoryEdit] = useState({
+    id: "",
+    name: "",
+    description: "",
+  });
   const closeModalEdit = () => {
     setIsModalVisible(false);
+  };
+
+  const openModalEdit = (id: number) => {
+    setIsModalVisible(true);
+    // Gọi API với categoryId
+    apis.category
+      .getDataCat(id)
+      .then((response) => {
+        setCategoryEdit(response.data);
+        console.log("Category :", response.data);
+      })
+      .catch((error) => {
+        console.error("Error getting category:", error);
+      });
   };
 
   const handleEdit = (event: any) => {
@@ -91,7 +94,6 @@ const CategoryAdmin: React.FC = () => {
       id: formData.get("id"),
       name: formData.get("name"),
       description: formData.get("description"),
-      status: convertStatusToBoolean(formData.get("status")),
     };
 
     apis.category
@@ -122,21 +124,24 @@ const CategoryAdmin: React.FC = () => {
       });
   };
 
+  //translate
+  const { t } = useTranslation();
+
   return (
     <div className="category-list">
-      <h1>CATEGORY</h1>
-      <h2>Tất cả các Danh mục</h2>
+      <h1>{t("category")}</h1>
+      <h2>{t("allCategory")}</h2>
 
       <button className="add-category-btn" onClick={handleOpenModal}>
-        Add Category
+        {t("addCategory")}
       </button>
       {showModal && (
         <div className="modal">
           <form onSubmit={handleSubmit}>
-            <h2>Add Category</h2>
-            <label htmlFor="name">Name:</label>
+            <h2>{t("addCategory")}</h2>
+            <label htmlFor="name">{t("nameCategory")}</label>
             <input type="text" id="name" name="name" required />
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">{t("descriptionCategory")}</label>
             <textarea
               name="description"
               id="description"
@@ -144,10 +149,10 @@ const CategoryAdmin: React.FC = () => {
               rows={10}
             ></textarea>
             <button type="button" onClick={handleCloseModal}>
-              Close
+              {t("close")}
             </button>
             <button type="submit" className="btn btn-primary">
-              ADD
+              {t("add")}
             </button>
           </form>
         </div>
@@ -156,17 +161,17 @@ const CategoryAdmin: React.FC = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th>{t("idCategory")}</th>
+            <th>{t("nameCategory")}</th>
+            <th>{t("descriptionCategory")}</th>
+            <th>{t("statusCategory")}</th>
+            <th>{t("actionCategory")}</th>
           </tr>
         </thead>
         <tbody>
-          {categoryStore.data?.map((category) => (
+          {categoryStore.data?.map((category, index) => (
             <tr key={category.id}>
-              <td>{category.id}</td>
+              <td>{index + 1}</td>
               <td>{category.name}</td>
               <td>{category.description}</td>
               <td>{category.status ? "Đang bán" : "Hết hàng"}</td>
@@ -174,52 +179,47 @@ const CategoryAdmin: React.FC = () => {
                 <button
                   className="edit-btn"
                   onClick={() => {
-                    setIsModalVisible(true);
+                    openModalEdit(category.id);
+                    console.log("category.id", category.id);
                   }}
                 >
-                  Edit
+                  {t("edit")}
                 </button>
                 {isModalVisible && (
                   <div className="modal">
                     <form onSubmit={handleEdit}>
-                      <h2>Edit Category</h2>
-                      <label htmlFor="id">Id:</label>
+                      <h2>{t("editCategory")}</h2>
+                      <label htmlFor="id">{t("idCategory")}</label>
                       <input
                         type="text"
                         name="id"
-                        value={category.id}
+                        value={categoryEdit.id}
                         readOnly
                       />
-                      <label htmlFor="name">Name:</label>
+                      <label htmlFor="name">{t("nameCategory")}</label>
                       <input
                         type="text"
                         id="name"
                         name="name"
-                        defaultValue={category.name}
+                        defaultValue={categoryEdit.name}
                         required
                       />
-                      <label htmlFor="description">Description:</label>
+                      <label htmlFor="description">
+                        {t("descriptionCategory")}
+                      </label>
                       <textarea
                         name="description"
                         id="description"
                         cols={30}
                         rows={10}
-                        defaultValue={category.description}
+                        defaultValue={categoryEdit.description}
                       ></textarea>
-                      <label htmlFor="status">Status:</label>
-                      <select
-                        name="status"
-                        id="status"
-                        defaultValue={category.status ? "active" : "inactive"}
-                      >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                      </select>
+
                       <button type="button" onClick={closeModalEdit}>
-                        Close
+                        {t("close")}
                       </button>
                       <button type="submit" className="btn btn-primary">
-                        Save
+                        {t("save")}
                       </button>
                     </form>
                   </div>
@@ -236,7 +236,7 @@ const CategoryAdmin: React.FC = () => {
                     handleDelete(category.id);
                   }}
                 >
-                  Delete
+                  {t("delete")}
                 </button>
               </td>
             </tr>

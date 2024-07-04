@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 
@@ -6,15 +6,25 @@ import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-
+import LanguageIcon from "@mui/icons-material/Language";
 import { styled, alpha } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 // SCSS styles
 import "./header.scss";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Modal, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Typography,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 import { StoreType } from "@/stores/slices";
+import vi from "@/i18n/vi";
+import en from "@/i18n/en";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,19 +65,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
 
-   const navigate = useNavigate();
-   
-   const userStore = useSelector((store: StoreType) => {
-     return store.userStore;
-   });
+  const userStore = useSelector((store: StoreType) => {
+    return store.userStore;
+  });
 
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleUserOptionChange = (event: { target: { value: unknown; }; }) => {
+  const handleUserOptionChange = (event: { target: { value: unknown } }) => {
     const value = event.target.value;
     if (value === "logout") {
       // Đăng xuất
@@ -75,7 +84,6 @@ const Header: React.FC = () => {
       // Chuyển hướng về trang chủ
       localStorage.removeItem("token");
       window.location.href = "/";
-
     } else if (value === "profile") {
       // Điều hướng đến trang hồ sơ
       navigate("/profile"); // Giả sử sử dụng hàm navigate từ react-router-dom
@@ -83,6 +91,19 @@ const Header: React.FC = () => {
   };
 
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  useEffect(() => {
+    const currentLanguage = localStorage.getItem("lng") || "vi";
+    setSelectedLanguage(currentLanguage);
+    i18n.changeLanguage(currentLanguage);
+  }, [i18n]);
+  const handleLanguageChange = (event: any) => {
+    const newLanguage = event.target.value;
+    localStorage.setItem("lng", newLanguage);
+    i18n.changeLanguage(newLanguage);
+    setSelectedLanguage(newLanguage);
+  };
   return (
     <AppBar position="static" className="header-bar">
       <Toolbar className="toolbar">
@@ -118,18 +139,25 @@ const Header: React.FC = () => {
           <Button className="button" color="inherit">
             <Link to="/cart">{t("cart")}</Link>
           </Button>
+          {/* <Button color="inherit">
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              value={selectedLanguage}
+              onChange={handleLanguageChange}
+            >
+              <option value="vi">VI</option>
+              <option value="en">EN</option>
+            </select>
+          </Button> */}
 
           {userStore.data == null ? (
             <Button color="inherit" onClick={handleOpen} className="button">
               {t("login")}
             </Button>
           ) : (
-
             <>
-              <select
-               
-                onChange={handleUserOptionChange}
-              >
+              <select onChange={handleUserOptionChange}>
                 <option disabled selected>
                   {userStore.data?.userName}
                 </option>
@@ -138,7 +166,26 @@ const Header: React.FC = () => {
               </select>
             </>
           )}
-
+          <FormControl fullWidth>
+            <Select
+              labelId="demo-simple-select-label"
+              value={selectedLanguage}
+              onChange={handleLanguageChange}
+              size="small"
+              style={{
+                color: "white",
+                display: "flex",
+                justifyContent: "center",
+                width: "70px",
+              }}
+            >
+              <MenuItem value="lng" defaultChecked>
+                <LanguageIcon />
+              </MenuItem>
+              <MenuItem value="vi">Vietnamese</MenuItem>
+              <MenuItem value="en">English</MenuItem>
+            </Select>
+          </FormControl>
 
           <Modal
             open={open}
