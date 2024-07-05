@@ -1,70 +1,61 @@
-import React, { useState } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState } from "react";
 import "./product.scss";
-import ProductColor from './ProductColor';
 
+import { fireBaseFn } from "@/firebase";
+import { useDispatch } from "react-redux";
+import { productActions } from "@/stores/slices/product.slices";
 
 export default function ProductVariantModal({ isOpen, onClose }) {
-    if (!isOpen) return null;
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  if (!isOpen) return null;
   
-    const [formData, setFormData] = useState({
-      storage: "",
-      quantity: "",
-      description: "",
-    });
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
      
 
-   const handleChange = (e) => {
-     const { name, value } = e.target;
-     setFormData((prevState) => ({ ...prevState, [name]: value }));
-   };
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log(formData);
+   
+    const formData = {
+      color: (e.target as any).color.value,
+      price: (e.target as any).price.value,
+      image: await fireBaseFn.uploadToStorage((e.target as any).image.files[0]),
+      quantity: (e.target as any).quantity.value,
+      description: (e.target as any).description.value,
     };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  
+    console.log(formData);
+   
+    dispatch(productActions.addProduct(formData));
+   onClose();
+    console.log(formData);
+  };
 
   return (
     <div className="modal">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="storage">Storage:</label>
-        <input
-          type="text"
-          id="storage"
-          name="storage"
-          value={formData.storage}
-          onChange={handleChange}
-        />
-
-        <button type="button" onClick={() => setIsModalOpen(true)}>
-          +
-        </button>
+        <label htmlFor="color">Color:</label>
+        <input type="text" name="color" id="color" />
+        <label htmlFor="price">Price:</label>
+        <input type="number" name="price" id="price" />
+        <label>Image:</label>
+        <input type="file" name="image" id="image" />
 
         <label htmlFor="quantity">Quantity:</label>
-        <input
-          type="number"
-          id="quantity"
-          name="quantity"
-          value={formData.quantity}
-          onChange={handleChange}
-        />
+        <input type="number" id="quantity" name="quantity" />
         <label htmlFor="description">Description:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+        <textarea id="description" name="description" />
         <button type="button" onClick={onClose}>
           Close
         </button>
-        <button type="submit">Save</button>
+
+        <button
+          type="submit" 
+        >
+          Save
+        </button>
       </form>
-      <ProductColor
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </div>
   );
 }

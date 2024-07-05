@@ -83,16 +83,13 @@ const ProductAdmin: React.FC = () => {
       <h1>{t("product")}</h1>
       <h2>{t("allProduct")}</h2>
 
-
       <button className="add-category-btn">
         <Link className="link-add-category" to="add">
-          Add Product
+          {t("addProduct")}
         </Link>
       </button>
 
-      <button className="add-category-btn" onClick={handleOpenModal}>
-        {t("addProduct")}
-      </button>
+    
       {modelAddProduct && (
         <div className="modal-product">
           <form onSubmit={handleAddProduct}>
@@ -133,7 +130,6 @@ const ProductAdmin: React.FC = () => {
           </form>
         </div>
       )}
-
 
       <table>
         <thead>

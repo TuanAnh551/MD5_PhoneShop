@@ -1,6 +1,6 @@
 import { categoryApi } from "./modules/category";
 
-
+import { productApi } from "./modules/product";
 import {loginApi} from "./modules/login";
 import { registerApi } from "./modules/register";
 
@@ -10,4 +10,5 @@ export default {
   login: loginApi,
   register: registerApi,
   user: userApi,
+  product: productApi,
 };
