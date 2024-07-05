@@ -8,12 +8,6 @@
     background-color: #f0f0f0;
     padding: 20px;
 
-    h2 {
-      margin-bottom: 20px;
-      font-size: 24px;
-      color: #333;
-    }
-
     ul {
       list-style-type: none;
       padding: 0;
@@ -23,12 +17,13 @@
         cursor: pointer;
       }
     }
-     a { // Thêm quy tắc này
-      text-decoration: none ;
+    a {
+      // Thêm quy tắc này
+      text-decoration: none;
       color: inherit; // Để thẻ <a> kế thừa màu từ button
     }
     .selected {
-      color: #ff0000; 
+      color: #ff0000;
       font-size: 20px;
     }
   }
@@ -77,5 +72,19 @@
         text-decoration: none;
       }
     }
+  }
+}
+.admin {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+
+  h3 {
+    color: red;
+    font-size: 30px;
+    font-weight: 400;
+  }
+  h2 {
+    margin-top: 15px;
   }
 }

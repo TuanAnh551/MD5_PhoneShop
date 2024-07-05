@@ -156,15 +156,35 @@ const Header: React.FC = () => {
               {t("login")}
             </Button>
           ) : (
-            <>
-              <select onChange={handleUserOptionChange}>
-                <option disabled selected>
-                  {userStore.data?.userName}
-                </option>
-                <option value="profile">{t("profile")}</option>
-                <option value="logout">{t("logout")}</option>
-              </select>
-            </>
+            // <>
+            //   <select onChange={handleUserOptionChange}>
+            //     <option disabled selected>
+            //       {userStore.data?.userName}
+            //     </option>
+            //     <option value="profile">{t("profile")}</option>
+            //     <option value="logout">{t("logout")}</option>
+            //   </select>
+            // </>
+
+            <FormControl fullWidth>
+              <Select
+                onChange={handleUserOptionChange}
+                labelId="demo-simple-select-label"
+                value={selectedLanguage}
+                size="small"
+                style={{
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <MenuItem value="lng" disabled selected>
+                  Hello: {userStore.data?.userName}
+                </MenuItem>
+                <MenuItem value="profile">{t("profile")}</MenuItem>
+                <MenuItem value="logout">{t("logout")}</MenuItem>
+              </Select>
+            </FormControl>
           )}
           <FormControl fullWidth>
             <Select
@@ -179,7 +199,7 @@ const Header: React.FC = () => {
                 width: "70px",
               }}
             >
-              <MenuItem value="lng" defaultChecked>
+              <MenuItem value="lng" selected>
                 <LanguageIcon />
               </MenuItem>
               <MenuItem value="vi">Vietnamese</MenuItem>

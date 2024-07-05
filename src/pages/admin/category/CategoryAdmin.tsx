@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./category.scss";
 
 import { useSelector } from "react-redux";
@@ -7,11 +7,32 @@ import axios from "axios";
 import apis from "@/apis";
 import { Category } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { Pagination } from "@mui/material";
+import { debounce } from "lodash"; // Assuming lodash is installed
 
 const CategoryAdmin: React.FC = () => {
   const categoryStore = useSelector((store: StoreType) => {
     return store.categoryStore;
   });
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageData, setCurrentPageData] = useState([]);
+  const limit = 3;
+
+  useEffect(() => {
+    const offset = (currentPage - 1) * limit;
+    apis.category.paginationCategory(offset, limit).then((response) => {
+      console.log("Category data:", response.data);
+      const newData = categoryStore.data?.slice(offset, offset + limit) ?? [];
+      setCurrentPageData(newData);
+    });
+  }, [currentPage, categoryStore.data]);
+
+  const totalPage = Math.ceil((categoryStore.data?.length ?? 0) / limit);
+  const handlePageChange = (event: any, page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
 
   // Add category
   const [showModal, setShowModal] = useState(false);
@@ -88,37 +109,31 @@ const CategoryAdmin: React.FC = () => {
   const handleEdit = (event: any) => {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    // Gather form data
     const formData = new FormData(event.target);
     const data = {
       id: formData.get("id"),
       name: formData.get("name"),
       description: formData.get("description"),
     };
-
+    // Gọi API edit
     apis.category
       .edit(data)
       .then((response) => {
         console.log("Category edited:", response.data);
         closeModalEdit(); // Close the modal on success
-        // Optionally, refresh the list of categories or navigate as needed
         window.location.reload();
       })
       .catch((error) => {
         if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
           console.error("Error editing category:", error.response.data);
           console.error("Status code:", error.response.status);
           console.error("Headers:", error.response.headers);
         } else if (error.request) {
-          // The request was made but no response was received
           console.error(
             "Error editing category: No response received",
             error.request
           );
         } else {
-          // Something happened in setting up the request that triggered an Error
           console.error("Error editing category:", error.message);
         }
       });
@@ -127,9 +142,48 @@ const CategoryAdmin: React.FC = () => {
   //translate
   const { t } = useTranslation();
 
+  //search category (su dung debounce cua lodash)
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  // Kiểm tra xem có kết quả tìm kiếm không, nếu có thì hiển thị kết quả tìm kiếm, nếu không thì hiển thị dữ liệu trang hiện tại
+  const dataToShow = searchResult.length > 0 ? searchResult : currentPageData;
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
+  const debouncedSearch = debounce((value: string) => {
+    if (value === "") {
+      setSearchResult([]);
+    } else {
+      apis.category
+        .searchCategory(value)
+        .then((response) => {
+          console.log("Search result:", response.data);
+          setSearchResult(response.data);
+        })
+        .catch((error) => {
+          console.error("Error searching category:", error);
+        });
+    }
+  }, 300);
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
   return (
     <div className="category-list">
-      <h1>{t("category")}</h1>
+      <div className="search-bar">
+        <h1>{t("category")}</h1>
+        <input
+          type="text"
+          placeholder="Search for category"
+          onChange={handleSearch}
+        />
+      </div>
+
       <h2>{t("allCategory")}</h2>
 
       <button className="add-category-btn" onClick={handleOpenModal}>
@@ -169,9 +223,10 @@ const CategoryAdmin: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {categoryStore.data?.map((category, index) => (
+          {dataToShow.map((category: any, index: number) => (
             <tr key={category.id}>
-              <td>{index + 1}</td>
+              <td>{(currentPage - 1) * limit + index + 1}</td>{" "}
+              {/* Correct indexing for pagination */}
               <td>{category.name}</td>
               <td>{category.description}</td>
               <td>{category.status ? "Đang bán" : "Hết hàng"}</td>
@@ -243,6 +298,14 @@ const CategoryAdmin: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      <Pagination
+        count={totalPage} // Use the calculated total pages
+        page={currentPage} // Current page
+        onChange={handlePageChange} // Handle page change
+        shape="rounded"
+        style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
+      />
     </div>
   );
 };

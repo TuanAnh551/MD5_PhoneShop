@@ -4,6 +4,9 @@ import { use } from "i18next";
 import axios from "axios";
 import { User } from "@/stores/slices/user.slices";
 import { useTranslation } from "react-i18next";
+import apis from "@/apis";
+import { Pagination } from "@mui/material";
+import { debounce } from "lodash";
 
 const ProductAdmin: React.FC = () => {
   const { t } = useTranslation();
@@ -16,6 +19,58 @@ const ProductAdmin: React.FC = () => {
     });
   }, []);
 
+  //pagination user
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageData, setCurrentPageData] = useState<User[]>([]);
+  const limit = 1;
+  useEffect(() => {
+    const offset = (currentPage - 1) * limit;
+    apis.user.paginationUser(offset, limit).then((res) => {
+      console.log("pagination user", res.data);
+      setCurrentPageData(res.data);
+    });
+  }, [currentPage, user]);
+  const totalPage = Math.ceil(user.length / limit);
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
+  };
+
+  //search user
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  // Kiểm tra xem có kết quả tìm kiếm không, nếu có thì hiển thị kết quả tìm kiếm, nếu không thì hiển thị dữ liệu trang hiện tại
+  const dataToShow = searchResult.length > 0 ? searchResult : currentPageData;
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
+  const debouncedSearch = debounce((value: string) => {
+    if (value === "") {
+      setSearchResult([]);
+    } else {
+      apis.user
+        .searchUser(value)
+        .then((response) => {
+          console.log("Search result:", response.data);
+          setSearchResult(response.data);
+        })
+        .catch((error) => {
+          console.error("Error searching category:", error);
+        });
+    }
+  }, 300);
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
+
   //block user
   const blockUser = (id: number) => {
     window.confirm("Bạn có chắc chắn muốn block tài khoản này không?");
@@ -26,7 +81,15 @@ const ProductAdmin: React.FC = () => {
   };
   return (
     <div className="category-list">
-      <h1> {t("user")}</h1>
+      <div className="search-bar">
+        <h1> {t("user")}</h1>
+        <input
+          type="text"
+          placeholder="Search for user"
+          onChange={handleSearch}
+        />
+      </div>
+
       <h2> {t("allUser")}</h2>
 
       <table>
@@ -43,7 +106,7 @@ const ProductAdmin: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {user.map((user, index) => (
+          {dataToShow.map((user, index) => (
             <tr key={user.id}>
               <td>{index + 1}</td>
               <td>{user.userName}</td>
@@ -66,6 +129,14 @@ const ProductAdmin: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      <Pagination
+        count={totalPage} // Use the calculated total pages
+        page={currentPage} // Current page
+        onChange={handlePageChange} // Handle page change
+        shape="rounded"
+        style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
+      />
     </div>
   );
 };

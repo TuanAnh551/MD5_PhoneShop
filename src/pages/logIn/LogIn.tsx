@@ -4,8 +4,6 @@ import { useTranslation } from "react-i18next";
 import { showToast } from "../../util/toast.ts";
 import apis from "@/apis/index.ts";
 
-
-
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const [touched, setTouched] = useState({
@@ -29,8 +27,22 @@ const Login: React.FC = () => {
       const response = await apis.login.loginApi(loginData);
       console.log(response.data);
       localStorage.setItem("token", response.data.token);
-      window.location.href = "/";
-      showToast.success(response.data.message);
+
+      //xét điều kiện nếu userRole = true thì chuyển hướng sang trang admin
+      //gọi api user.verifyToken để lấy thông tin user
+      const res = await apis.user.verifyToken(
+        localStorage.getItem("token") || ""
+      );
+      console.log("da vao", res.data.data);
+      if (res.data.data.userRole === true) {
+        showToast.success(response.data.message);
+        window.location.href = "/admin";
+      } else {
+        showToast.success(response.data.message);
+        window.location.href = "/";
+      }
+      // showToast.success(response.data.message);
+      // window.location.href = "/";
     } catch (err) {
       // Lỗi sẽ được bắt ở đây nếu có
       console.log(err);
@@ -94,7 +106,7 @@ const Login: React.FC = () => {
                   </span>
                 )}
               </div>
-                
+
               <button type="submit">{t("Login")}</button>
             </form>
 
