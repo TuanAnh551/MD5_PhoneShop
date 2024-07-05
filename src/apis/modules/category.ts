@@ -24,17 +24,28 @@ export const categoryApi = {
   },
 
   categoryPro: async () => {
-    return await axios.get(
-      `${import.meta.env.VITE_SV}/admin/product/category`
-    );
+    return await axios.get(`${import.meta.env.VITE_SV}/admin/product/category`);
   },
 
   getDataCat: async (id: number) => {
     return await axios.get(`${import.meta.env.VITE_SV}/admin/category/${id}`);
   },
 
+  paginationCategory: async (offset: number, limit: number) => {
+    return await axios.get(
+      `${
+        import.meta.env.VITE_SV
+      }/admin/category/pagination?offset=${offset}&limit=${limit}`
+    );
+  },
+
+  searchCategory: async (name: string) => {
+    return await axios.get(
+      `${import.meta.env.VITE_SV}/admin/category/search?name=${name}`
+    );
+  },
+
   //   async findAll() {
   //     return await axios.get(`${import.meta.env.VITE_SV}/admin/category`);
   //   },
-
 };

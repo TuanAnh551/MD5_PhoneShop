@@ -4,6 +4,8 @@ import { Link, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FormControl, MenuItem, Select } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
+import { useSelector } from "react-redux";
+import { StoreType } from "@/stores/slices";
 const HomeAdmin: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("admin");
 
@@ -26,6 +28,12 @@ const HomeAdmin: React.FC = () => {
     i18n.changeLanguage(newLanguage);
     setSelectedLanguage(newLanguage);
   };
+
+  //goi store de lay thong tin user
+  const userStore = useSelector((store: StoreType) => {
+    return store.userStore;
+  });
+
   return (
     <div className="admin-home">
       <aside className="sidebar">
@@ -49,7 +57,10 @@ const HomeAdmin: React.FC = () => {
             <MenuItem value="en">English</MenuItem>
           </Select>
         </FormControl>
-        <h2>{t("hello")}</h2>
+        <div className="admin">
+          <h2>{t("hello")}:</h2>
+          <h3>{userStore.data?.userName}</h3>
+        </div>
         <nav>
           <ul>
             <li
@@ -64,7 +75,7 @@ const HomeAdmin: React.FC = () => {
               onClick={() => handleFilterClick("category")}
             >
               {" "}
-              <Link to="/admin/category"> List {t("category")}</Link>
+              <Link to="/admin/category">{t("category")}</Link>
             </li>
             <li
               className={selectedFilter === "product" ? "selected" : ""}
@@ -92,9 +103,6 @@ const HomeAdmin: React.FC = () => {
 
       <main className="main-content">
         <header className="admin-header">
-          <div className="search-bar">
-            <input type="text" placeholder="Search for projects" />
-          </div>
           <div className="header-icons">
             <span className="theme-toggle">🌙</span>
             <span className="notifications">🔔</span>
