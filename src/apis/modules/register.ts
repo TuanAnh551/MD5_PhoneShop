@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const registerApi = {
-  registerApi: async (data: {
+  registerUser: async (data: {
     userName: string;
     phone: string;
     email: string;
@@ -11,4 +11,5 @@ export const registerApi = {
   }) => {
     return await axios.post(`${import.meta.env.VITE_SV}/api/register`, data);
   },
+  
 };
