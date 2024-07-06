@@ -1,68 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarIcon from "@mui/icons-material/Star";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Button } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
 import HomeIcon from "@mui/icons-material/Home";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import "./ProductDetail.scss";
 import { useTranslation } from "react-i18next";
+import apis from "@/apis";
+import { useSelector } from "react-redux";
+import { StoreType } from "@/stores/slices";
 
 const ProductDetail = () => {
-  const [showMoreFeatures, setShowMoreFeatures] = useState(false);
-  const [showMoreSpecs, setShowMoreSpecs] = useState(false);
+  const { productId } = useParams();
+  const [selectedImageId, setSelectedImageId] = useState(null);
+  const [showProduct, setShowProduct] = useState(false);
+  const userStore = useSelector((store: StoreType) => {
+    return store.userStore;
+  });
+  useEffect(() => {
+    apis.product
+      .getProductById(productId ?? "")
+      .then((res) => {
+        setShowProduct(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching product data:", error);
+      });
+  }, [productId]);
 
-  const features = [
-    {
-      text: "Thiết kế với nhiều đột phá.Về kích thước, iPhone 13 sẽ có 4 phiên bản khác nhau và kích thước không đổi so với series iPhone 12 hiện tại. Nếu iPhone 12 có sự thay đổi trong thiết kế từ góc cạnh bo tròn (Thiết kế được duy trì từ thời iPhone 6 đến iPhone 11 Pro Max) sang thiết kế vuông vắn (đã từng có mặt trên iPhone 4 đến iPhone 5S, SE).Thì trên điện thoại iPhone 13 vẫn được duy trì một thiết kế tương tự. Máy vẫn có phiên bản khung viền thép, một số phiên bản khung nhôm cùng mặt lưng kính. Tương tự năm ngoái, Apple cũng sẽ cho ra mắt 4 phiên bản là iPhone 13, 13 mini, 13 Pro và 13 Pro Max.",
-      image:
-        "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/mobile/apple/IPHONE-13-1.jpg",
-    },
-    {
-      text: 'Không gian hiển thị sống động - Màn hình 6.1" Super Retina XDR độ sáng cao, sắc nét',
-      image:
-        "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/mobile/apple/iphone-13-13.png",
-    },
-    {
-      text: "Trải nghiệm điện ảnh đỉnh cao - Camera kép 12MP, hỗ trợ ổn định hình ảnh quang học",
-      image:
-        "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/mobile/apple/IPHONE-13-2.jpg",
-    },
-    {
-      text: "Tối ưu điện năng - Sạc nhanh 20 W, đầy 50% pin trong khoảng 30 phút",
-      image:
-        "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/mobile/apple/IPHONE-13-4.jpg",
-    },
-    {
-      text: "Thiết kế tinh tế - Vỏ nhôm nguyên khối, mặt kính Ceramic Shield chống trầy xước",
-      image:
-        "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/mobile/apple/IPHONE-13-5.jpg",
-    },
-    {
-      text: "Hệ điều hành iOS 15 - Công nghệ mới, nhiều tính năng thông minh",
-      image:
-        "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/mobile/apple/IPHONE-13-6.jpg",
-    },
-  ];
+  const handleColor = (id) => {
+    setSelectedImageId(id);
+    console.log(id);
+  };
 
-  const specs = [
-    { label: "Kích thước màn hình", value: "6.1 inches" },
-    { label: "Công nghệ màn hình", value: "Super Retina XDR OLED" },
-    {
-      label: "Camera sau",
-      value: "Camera góc rộng: 12MP, f/1.6\nCamera góc siêu rộng: 12MP, f/2.4",
-    },
-    { label: "Camera trước", value: "12MP, f/2.2" },
-    { label: "Chipset", value: "Apple A15" },
-    { label: "Dung lượng RAM", value: "4 GB" },
-    { label: "Bộ nhớ trong", value: "128 GB" },
-    { label: "Pin", value: "3240mAh" },
-    { label: "Thẻ SIM", value: "2 SIM (nano‑SIM và eSIM)" },
-  ];
+  const handlePurchase = (id) => {
+    const cart = {
+      product: {
+        id: productId,
+      },
+      user: userStore.data,
+
+      quantity: 1,
+      productVariant: { id: selectedImageId },
+    };
+    console.log(selectedImageId);
+    apis.cart
+      .addCart(cart)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error("There was an error!", err);
+      });
+    console.log(id);
+    selectedImageId;
+    console.log(selectedImageId);
+  };
+
   const { t } = useTranslation();
+  if (!showProduct) return <div>Loading...</div>;
   return (
     <>
       <div className="product-page">
@@ -79,8 +77,9 @@ const ProductDetail = () => {
           <HomeIcon />
           {t("home")}
         </Link>
+
         <h1>
-          iPhone 13 128GB | Chính hãng VN/A
+          {showProduct.name}
           <span className="rating">
             {[...Array(5)].map((_, i) => (
               <StarIcon key={i} sx={{ color: "#ffd700" }} />
@@ -92,57 +91,86 @@ const ProductDetail = () => {
         <div className="line"></div>
 
         <div className="product-content">
-          <div className="product-image">
+          <div className="product-image-container">
             <FavoriteIcon className="heart-icon" sx={{ color: "#ff3b30" }} />
-
-            <img
-              src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_13_128gb_-_1_1_.png"
-              alt="iPhone 13"
-            />
+            <div className="product-image-slider">
+              {showProduct.productVariantImg.map((variantImg) => (
+                <img
+                  key={variantImg.id}
+                  src={variantImg.images}
+                  alt="Hình ảnh sản phẩm"
+                />
+              ))}
+            </div>
+            {/* {showProduct.productVariantImg.map((variantImg, index) => (
+              <img
+                key={`thumb-${variantImg.id}`}
+                src={variantImg.images}
+                alt={`Thumbnail ${index + 1}`}
+                className={`thumbnail ${
+                  index === activeImageIndex ? "active" : ""
+                }`}
+                onClick={() => handleThumbnailClick(index)}
+              />
+            ))} */}
+            <div className="thumbnail-container">
+              {showProduct.productVariantImg.map((variantImg, index) => (
+                <img
+                  key={`thumb-${variantImg.id}`}
+                  src={variantImg.images}
+                  alt={`Thumbnail ${index + 1}`}
+                  className="thumbnail"
+                />
+              ))}
+            </div>
           </div>
 
           <div className="product-info">
             <div className="storage-options">
-              {["512GB", "256GB", "128GB"].map((storage, index) => (
+              <button
+                className={
+                  showProduct.storage === showProduct.storage ? "active" : ""
+                }
+              >
+                {showProduct.storage}
+              </button>
+            </div>
+            <p>{t("color")}</p>
+            <div className="color-options">
+              {showProduct.productVariants.map((img, index) => (
                 <button
                   key={index}
-                  className={storage === "128GB" ? "active" : ""}
+                  onClick={() => handleColor(img.id)}
+                  className={`color-selector ${
+                    img.id === selectedImageId ? "selected" : ""
+                  }`}
                 >
-                  {storage}
+                  <img
+                    className="color-circle"
+                    src={img.image}
+                    alt="Description"
+                  />
+                  {img.color}
                   <div>
-                    {storage === "128GB"
-                      ? "13.690.000 đ"
-                      : storage === "256GB"
-                      ? "17.490.000 đ"
-                      : "24.390.000 đ"}
+                    {showProduct.productVariants[0].price.toLocaleString()}đ
                   </div>
                 </button>
               ))}
             </div>
-            <p>{t("color")}</p>
-            <div className="color-options">
-              {["Xanh lá", "Hồng", "Đen", "Trắng", "Xanh dương", "Đỏ"].map(
-                (color, index) => (
-                  <button
-                    key={index}
-                    className={color === "Trắng" ? "active" : ""}
-                  >
-                    <div
-                      className={`color-circle ${color.toLowerCase()}`}
-                    ></div>
-                    {color}
-                    <div>13.690.000đ</div>
-                  </button>
-                )
-              )}
-            </div>
             <div className="price-section">
-              <div className="current-price">13.690.000đ</div>
+              <div className="current-price">
+                {showProduct.productVariants[0].price.toLocaleString()}đ
+              </div>
               <div className="old-price">18.990.000đ</div>
             </div>
 
             <div className="button-grid">
-              <button className="buy-now">{t("buynow")}</button>
+              <button
+                className="buy-now"
+                onClick={() => handlePurchase(showProduct.id)}
+              >
+                {t("buynow")}
+              </button>
 
               <button className="add-to-cart">
                 <Link
@@ -158,12 +186,10 @@ const ProductDetail = () => {
       </div>
 
       {/* detail --------------------------------------------------------------------------*/}
-      <div className="product-details">
+      {/* <div className="product-details">
         <div className="features">
-
           <h2>{t("about")}</h2>
           <ul>
-
             {features
               .slice(0, showMoreFeatures ? features.length : 1)
               .map((feature, index) => (
@@ -229,7 +255,7 @@ const ProductDetail = () => {
             {showMoreSpecs ? t("less") : t("seemore")}
           </Button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

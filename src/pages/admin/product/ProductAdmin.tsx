@@ -1,81 +1,46 @@
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../category/category.scss";
-
-import axios from "axios";
-import { formatVNCurrency } from "../../../util/currency";
 import "./product.scss";
-
-import { Link, Outlet } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-
-interface Product {
-  id: number;
-  name: string;
-  image: string[]; 
-  description: string; 
-  Category: { id: number; name: string; description: string; status: boolean }; 
-  price: number;
-  createDate: string;
-  updateDate: string;
-  status: boolean; 
-}
+import apis from "@/apis";
+import { Modal } from "antd";
+import EditProduct from "./EditProduct";
 
 const ProductAdmin: React.FC = () => {
-  const [product, setProduct] = useState<Product[]>([]);
+  const [view, setView] = useState(false);
+  const [productInfo, setProductInfo] = useState(null);
+  const [products, setProducts] = useState([]);
+   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+  const handleView = (id: string) => {
+    setView(!view);
+    if (id) {
+      apis.product
+        .getProductById(id)
+        .then((res) => {
+          setProductInfo(res.data);
+          setView(true);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch product:", error);
+        });
+    }
   };
-
-
-
- 
-  const [modelAddProduct, setModelAddProduct] = useState(false);
- 
-
- 
-  const handleCloseModal = () => {
-    setModelAddProduct(false);
+  const handleEdit = (id) => {
+  setEditingId(id);
   };
-
-  const handleAddProduct = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const data = {
-      name: formData.get("name"),
-      image: formData.get("image"),
-      description: formData.get("description"),
-      category: formData.get("category"),
-      price: formData.get("price"),
-      quantity: formData.get("quantity"),
-      createDate: formData.get("createDate"),
-      updateDate: formData.get("updateDate"),
-    };
-    axios
-      .post("/api/admin/product/add", data)
-      .then((response) => {
-        console.log("Product added successfully", response.data);
-
-        handleCloseModal();
-        window.location.reload();
+  useEffect(() => {
+    apis.product
+      .getProduct()
+      .then((res) => {
+        setProducts(res.data);
       })
       .catch((error) => {
-        if (error.response) {
-          console.error("Error adding product", error.response.data);
-          console.error("Error adding product", error.response.status);
-          console.error("Error adding product", error.response.headers);
-        } else if (error.request) {
-          console.error("Error adding product", error.request);
-        } else {
-          console.error("Error", error.message);
-        }
+        console.error("Failed to fetch products:", error);
       });
-  };
+  }, []);
+  
   //translation
   const { t } = useTranslation();
   return (
@@ -89,91 +54,110 @@ const ProductAdmin: React.FC = () => {
         </Link>
       </button>
 
-    
-      {modelAddProduct && (
-        <div className="modal-product">
-          <form onSubmit={handleAddProduct}>
-            <h2>{t("addProduct")}</h2>
-            <label htmlFor="name">{t("nameProduct")}</label>
-            <input type="text" id="name" name="name" required />
-            <label htmlFor="image">{t("imageProduct")}</label>
-            <input type="file" id="image" name="image" />
-            <label htmlFor="description">{t("descriptionProduct")}</label>
-            <textarea
-              name="description"
-              id="description"
-              cols={30}
-              rows={10}
-            ></textarea>
-            <label htmlFor="category">{t("categoryProduct")}</label>
-            <select id="category" name="category" required>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="price">{t("priceProduct")}</label>
-            <input type="number" id="price" name="price" required />
-            <label htmlFor="quantity">{t("quantityProduct")}</label>
-            <input type="number" id="quantity" name="quantity" required />
-            <label htmlFor="createDate">{t("createDateProduct")}</label>
-            <input type="date" id="createDate" name="createDate" required />
-            <label htmlFor="updateDate">{t("updateDateProduct")}</label>
-            <input type="date" id="updateDate" name="updateDate" required />
-            <button type="button" onClick={handleCloseModal}>
-              {t("close")}
-            </button>
-            <button type="submit" className="btn btn-primary">
-              {t("add")}
-            </button>
-          </form>
-        </div>
-      )}
-
       <table>
         <thead>
           <tr>
             <th>{t("idProduct")}</th>
             <th>{t("nameProduct")}</th>
-            <th>{t("imageProduct")}</th>
-            <th>{t("descriptionProduct")}</th>
+            {/* <th>{t("imageProduct")}</th> */}
             <th>{t("categoryProduct")}</th>
-            <th>{t("priceProduct")}</th>
+            {/* <th>{t("priceProduct")}</th> */}
+            <th>Storage</th>
+            <th>{t("imageProduct")}</th>
             <th>{t("createDateProduct")}</th>
-            <th>{t("updateDateProduct")}</th>
+            {/* <th>{t("updateDateProduct")}</th> */}
             <th>{t("statusProduct")}</th>
             <th>{t("actionProduct")}</th>
           </tr>
         </thead>
         <tbody>
-          {product.map((products) => (
-            <tr key={products.id}>
-              <td>{products.id}</td>
-              <td>{products.name}</td>
-
-              <td>
+          {products.map((product, index) => (
+            <tr key={index++}>
+              <td>{index + 1}</td>
+              <td>{product.name}</td>
+              <td>{product.category.name}</td>
+              <td>{product.storage}</td>
+              {/* <td>{formatVNCurrency(product.price)}</td> */}
+              {product.productVariantImg.length > 0 && (
                 <img
-                  src={products.image[0]}
-                  alt={products.name}
-                  width="50"
-                  height="50"
+                  src={product.productVariantImg[0].images}
+                  alt="Product Variant"
+                  style={{ width: "100px", height: "100px" }}
                 />
-              </td>
-              <td>{products.description}</td>
-              <td>{products.Category.name}</td>
-              <td>{formatVNCurrency(products.price)}</td>
-              <td>{products.createDate.split("T")[0]}</td>
-              <td>{products.updateDate.split("T")[0]}</td>
-              <td>{products.status ? "Active" : "Inactive"}</td>
+              )}
+              <td>{product.createDate.split("T")[0]}</td>
+              <td>{product.status ? t("active") : t("inactive")}</td>
               <td>
-                <button className="edit-btn">{t("edit")}</button>
+                <button
+                  className="view-btn"
+                  onClick={() => handleView(product.id)}
+                >
+                  {t("view")}
+                </button>
+                <button
+                  className="edit-btn"
+                  onClick={() => handleEdit(product.id)}
+                >
+                  {t("edit")}
+                </button>
+
                 <button className="delete-btn">{t("delete")}</button>
               </td>
             </tr>
           ))}
+          <Modal
+            title="Thông tin sản phẩm"
+            visible={view}
+            onOk={() => setView(false)}
+            onCancel={() => setView(false)}
+          >
+            {productInfo ? (
+              <div>
+                <h2>Thông tin sản phẩm</h2>
+                <p>Tên sản phẩm: {productInfo.name}</p>
+                <p>Giá: {productInfo.productVariants[0].price}</p>{" "}
+                {/* Assuming you want to show the price from the first variant */}
+                <p>Mô tả: {productInfo.description}</p>
+                <p>Danh mục: {productInfo.category.name}</p>
+                <p>Mô tả danh mục: {productInfo.category.description}</p>
+                <div>
+                  <h3>Biến thể sản phẩm</h3>
+                  {productInfo.productVariants.map((variant) => (
+                    <div key={variant.id}>
+                      <p>Màu sắc: {variant.color}</p>
+                      <p>Giá: {variant.price}</p>
+                      <p>Mô tả: {variant.description}</p>
+                      <img
+                        src={variant.image}
+                        alt={`Hình ảnh của ${variant.color}`}
+                        style={{ width: "100px", height: "100px" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <h3>Hình ảnh sản phẩm</h3>
+                  {productInfo.productVariantImg.map((img) => (
+                    <img
+                      key={img.id}
+                      src={img.images}
+                      alt="Hình ảnh sản phẩm"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        marginRight: "10px",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p>Đang tải thông tin sản phẩm...</p>
+            )}
+          </Modal>
         </tbody>
       </table>
+      {editingId && <EditProduct productId={editingId} />}
     </div>
   );
 };

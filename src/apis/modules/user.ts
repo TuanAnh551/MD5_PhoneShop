@@ -18,4 +18,5 @@ export const userApi = {
       `${import.meta.env.VITE_SV}/api/user/search?userName=${userName}`
     );
   },
+  
 };

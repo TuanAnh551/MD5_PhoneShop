@@ -47,7 +47,7 @@ export default function Register() {
     }
     setIsSubmitting(true);
     try {
-      const response = await apis.register.registerApi(formData);
+      const response = await apis.register.registerUser(formData);
       showToast.success(response.data.message);
       console.log(response);
 

@@ -33,7 +33,7 @@ const userSlice = createSlice({
 
 const getUserData = createAsyncThunk("user/getUserData", async () => {
   let res = await apis.user.verifyToken(localStorage.getItem("token") || "");
-  console.log(res.data.data);
+  
   return res.data.data;
 });
 

@@ -89,7 +89,7 @@ const Header: React.FC = () => {
       navigate("/profile"); // Giả sử sử dụng hàm navigate từ react-router-dom
     }
   };
-  console.log(userStore.data, "userStore.data");
+  
 
   const { t } = useTranslation();
   const { i18n } = useTranslation();

@@ -8,11 +8,12 @@ import "./product.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreType } from "@/stores/slices";
 import { productActions } from "@/stores/slices/product.slices";
+import { showToast } from "@/util/toast";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
- 
+const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [categories, setCategories] = useState("");
 
@@ -29,9 +30,15 @@ export default function AddProduct() {
   }, []);
  
   
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const urls = files.map((file) => URL.createObjectURL(file));
+    setPreviewUrls(urls);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+   
     
     const formData = {
       product: {
@@ -39,20 +46,27 @@ export default function AddProduct() {
         storage: (e.target as any).storage.value,
         description: (e.target as any).description.value,
         categoryId: (e.target as any).category.value,
-        images: await fireBaseFn.uploadToStorage(
-          (e.target as any).image.files[0]
-        ),
       },
       variants: productsStore.data,
+      images: await Promise.all(
+        Array.from((e.target as any).images.files).map((file) =>
+          fireBaseFn.uploadToStorage(file as File)
+        )
+      ),
     };
-    console.log(formData);
+    
+     console.log("Sending formData:", formData);
    apis.product.addProduct(formData).then((res) => {
      console.log(res);
-     
      dispatch(productActions.addProduct(res.data));
-     console.log(res.data);
-   })
+     showToast.success("Add product success");
+       window.location.href="/admin/product";
+     
+   }).catch((error) => {
+      console.error("Failed to add product:", error);
+    });
   };
+  
   const productsStore = useSelector((store: StoreType) => {
     return store.productsStore;
   });
@@ -60,6 +74,7 @@ export default function AddProduct() {
   
   return (
     <>
+      <div id="fui-toast"></div>
       <div className="modal-product">
         <form onSubmit={handleSubmit}>
           <h2>Add Product</h2>
@@ -82,21 +97,21 @@ export default function AddProduct() {
           <label htmlFor="image">Image:</label>
           <input
             type="file"
-            id="image"
+            id="images"
             name="images"
             multiple
-           
+            onChange={handleImageChange}
           />
-          {/* <div>
-            {imageUrls.map((url, index) => (
+          <div>
+            {previewUrls.map((url, index) => (
               <img
                 className="image-preview"
                 key={Date.now() + Math.random()}
                 src={url}
-                alt={`Preview ${index}`}
+                alt={`Preview ${index + 1}`}
               />
             ))}
-          </div> */}
+          </div>
           <label htmlFor="description">Description</label>
           <textarea
             name="description"

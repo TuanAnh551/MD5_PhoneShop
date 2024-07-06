@@ -99,7 +99,7 @@ export default {
 
     //product
     allProduct: "Tất cả sản phẩm",
-    idProduct: "Mã sản phẩm",
+    idProduct: "STT",
     nameProduct: "Tên sản phẩm",
     priceProduct: "Giá",
     imageProduct: "Hình ảnh",

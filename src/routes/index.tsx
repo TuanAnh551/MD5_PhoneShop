@@ -3,7 +3,7 @@ import Profile from "@/pages/home/users/profile/Profile";
 
 import Home from "@/pages/Home";
 import Cart from "@/pages/home/Cart/Cart";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import OrderHistory from "@/pages/home/users/orderHistory/OrderHistory";
 
 import LogIn from "@/pages/logIn/LogIn";
@@ -33,10 +33,7 @@ export default function index() {
         <Route path="/" element={<Home></Home>}>
           <Route path="" element={<HeroHeader></HeroHeader>}></Route>
           <Route path="/cart" element={<Cart></Cart>}></Route>
-          <Route
-            path="/detail"
-            element={<ProductDetail></ProductDetail>}
-          ></Route>
+              <Route path="/detail/:productId" element={<ProductDetail />} />
         </Route>
         <Route path="/profile" element={<Profile></Profile>}>
           <Route
@@ -52,7 +49,10 @@ export default function index() {
             path="/admin/product"
             element={<ProductAdmin></ProductAdmin>}
           />
-          <Route path="/admin/product/add" element={<AddProduct></AddProduct>} />
+          <Route
+            path="/admin/product/add"
+            element={<AddProduct></AddProduct>}
+          />
 
           <Route path="/admin/user" element={<UserAdmin></UserAdmin>} />
           <Route path="/admin/order" element={<OrderAdmin></OrderAdmin>}>
