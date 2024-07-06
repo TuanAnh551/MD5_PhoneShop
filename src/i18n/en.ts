@@ -71,7 +71,7 @@ export default {
     buynow: "BUY NOW",
     addcart: "Add to cart",
     confirmPassword: "Passwords do not match",
-
+    changePassword: "Change password",
     //admin
     hello: "Hello",
     homes: "Home",

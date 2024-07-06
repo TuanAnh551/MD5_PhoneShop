@@ -72,6 +72,7 @@ export default {
     buynow: "MUA NGAY",
     addcart: "Thêm vào giỏ",
     confirmPassword: "Mật khẩu không khớp",
+    changePassword: "Đổi mật khẩu",
 
     //admin
     hello: "Xin chào",

@@ -5,7 +5,7 @@ import Home from "@/pages/Home";
 import Cart from "@/pages/home/Cart/Cart";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OrderHistory from "@/pages/home/users/orderHistory/OrderHistory";
-
+import PasswordChange from "@/pages/home/users/changePassword/PasswordChange";
 import LogIn from "@/pages/logIn/LogIn";
 
 import Register from "@/pages/logIn/Register";
@@ -22,9 +22,7 @@ import Waitting from "@/pages/admin/order/Waitting";
 import Cancel from "@/pages/admin/order/Cancel";
 import AddProduct from "@/pages/admin/product/AddProduct";
 import ProductDetail from "@/pages/home/ProductDetail/ProductDetail";
-
-
-
+import EditProfile from "@/pages/home/users/profile-edit/EditProfile";
 
 export default function index() {
   return (
@@ -43,6 +41,11 @@ export default function index() {
             path="/profile/orderhistory"
             element={<OrderHistory></OrderHistory>}
           />
+          <Route path="/profile/edit" element={<EditProfile></EditProfile>} />
+          <Route
+            path="/profile/changepassword"
+            element={<PasswordChange></PasswordChange>}
+          />
         </Route>
         <Route path="/login" element={<LogIn></LogIn>} />
         <Route path="/register" element={<Register></Register>} />
@@ -52,7 +55,10 @@ export default function index() {
             path="/admin/product"
             element={<ProductAdmin></ProductAdmin>}
           />
-          <Route path="/admin/product/add" element={<AddProduct></AddProduct>} />
+          <Route
+            path="/admin/product/add"
+            element={<AddProduct></AddProduct>}
+          />
 
           <Route path="/admin/user" element={<UserAdmin></UserAdmin>} />
           <Route path="/admin/order" element={<OrderAdmin></OrderAdmin>}>

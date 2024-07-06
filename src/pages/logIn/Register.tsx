@@ -10,7 +10,6 @@ import Button from "@mui/material/Button";
 import { showToast } from "../../util/toast.ts";
 import apis from "@/apis/index.ts";
 
-
 export default function Register() {
   const { t } = useTranslation();
   const [error, setError] = useState("");
@@ -47,13 +46,14 @@ export default function Register() {
     }
     setIsSubmitting(true);
     try {
-      const response = await apis.register.registerApi(formData);
+      //neu login k dc thi hay chech lai cai nay
+      const response = await apis.register.registerUser(formData);
       showToast.success(response.data.message);
       console.log(response);
 
       setTimeout(() => {
         setSuccessDialogOpen(true);
-      }, 3000); 
+      }, 3000);
     } catch (err) {
       showToast.error(err.response.data.message);
     } finally {
