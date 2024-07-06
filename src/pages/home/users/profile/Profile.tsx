@@ -2,7 +2,6 @@ import React from "react";
 import "./profile.scss";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
-
 interface MenuItem {
   icon: string;
   text: string;
@@ -17,17 +16,17 @@ interface UserInfo {
 }
 
 export default function Profile() {
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const menuItems: MenuItem[] = [
-    { icon: "🏠", text: "Trang chủ", path: "/profile" },
+    { icon: "🏠", text: "Trang chủ", path: "/" },
     { icon: "📜", text: "Lịch sử mua hàng", path: "/profile/orderhistory" },
-    { icon: "🛡️", text: "Tài khoản của bạn", path: "/profile/orderhistory" },
+    { icon: "🛡️", text: "Tài khoản của bạn", path: "/profile/edit" },
+    { icon: "🔒", text: "Đổi mật khẩu", path: "/profile/changepassword" },
     { icon: "🎁", text: "Ưu đãi của bạn", path: "/profile/orderhistory" },
 
     // ... add other menu items
   ];
-  
 
   const userInfo: UserInfo = {
     name: "LE THIEN",
@@ -77,7 +76,6 @@ export default function Profile() {
         <div className="home_page_container">
           <Outlet></Outlet>
         </div>
-        
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ export interface User {
   phone: string;
   address: string;
   status: boolean;
+  date: string;
   userRole: boolean;
 }
 
