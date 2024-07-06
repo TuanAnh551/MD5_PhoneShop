@@ -46,7 +46,9 @@ export default function Register() {
     }
     setIsSubmitting(true);
     try {
+
       //neu login k dc thi hay chech lai cai nay
+
       const response = await apis.register.registerUser(formData);
       showToast.success(response.data.message);
       console.log(response);

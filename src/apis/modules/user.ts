@@ -18,6 +18,8 @@ export const userApi = {
       `${import.meta.env.VITE_SV}/api/user/search?userName=${userName}`
     );
   },
+  
+
   changePassword: async (data: any) => {
     return axios.post(
       `${import.meta.env.VITE_SV}/api/user/changePassword`,
@@ -27,4 +29,5 @@ export const userApi = {
   updateUser: async (data: any) => {
     return axios.post(`${import.meta.env.VITE_SV}/api/user/update`, data);
   },
+
 };
