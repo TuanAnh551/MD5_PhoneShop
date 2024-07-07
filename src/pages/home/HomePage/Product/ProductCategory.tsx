@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./ProductLayout.scss";
+import "./ProductCategory.scss";
 
 import apis from "@/apis";
 import ProductDetail from "@/pages/home/ProductDetail/ProductDetail";
@@ -20,10 +20,9 @@ export default function Product() {
   }, []);
   const handleDetail = (id) => {
     setDetail(id);
-     navigate(`/detail/${id}`);
-    
+    navigate(`/detail/${id}`);
   };
-  
+
   return (
     <div>
       <div className="products-grid">
@@ -56,7 +55,6 @@ export default function Product() {
             <div className="installment-badge">Trả góp 0%</div>
             <p className="product-pay">
               Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6...
-             
             </p>
 
             <div className="rating">★★★★★</div>

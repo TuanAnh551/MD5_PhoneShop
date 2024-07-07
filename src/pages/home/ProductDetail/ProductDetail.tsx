@@ -4,7 +4,7 @@ import StarIcon from "@mui/icons-material/Star";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import HomeIcon from "@mui/icons-material/Home";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import "./ProductDetail.scss";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { StoreType } from "@/stores/slices";
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const { productId } = useParams();
   const [selectedImageId, setSelectedImageId] = useState(null);
   const [showProduct, setShowProduct] = useState(false);
@@ -50,6 +51,7 @@ const ProductDetail = () => {
       .addCart(cart)
       .then((res) => {
         console.log(res.data);
+        navigate("/cart");
       })
       .catch((err) => {
         console.error("There was an error!", err);
