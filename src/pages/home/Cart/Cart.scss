@@ -2,6 +2,18 @@
   max-width: 600px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
+  .cart-total{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    h3{
+      font-size: 16px;
+      margin: 0;
+    }
+  }
 
   header {
     display: flex;
@@ -45,17 +57,7 @@
       margin: 0 0 5px;
     }
 
-    p {
-      margin: 0;
-      &:first-of-type {
-        color: #ee4d2d;
-        font-weight: bold;
-      }
-      &:last-of-type {
-        color: #757575;
-        text-decoration: line-through;
-      }
-    }
+   
 
     .quantity-control {
       display: flex;

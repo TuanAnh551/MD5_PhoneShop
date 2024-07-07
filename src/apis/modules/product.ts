@@ -22,9 +22,7 @@ export const productApi = {
     return await axios.get(`${import.meta.env.VITE_SV}/admin/product`);
   },
   getProductById: async (id: string) => {
-    return await axios.get(
-      `${import.meta.env.VITE_SV}/admin/product/${id}`
-    );
+    return await axios.get(`${import.meta.env.VITE_SV}/admin/product/${id}`);
   },
   updateProduct: async (data: {
     product: {
@@ -40,6 +38,12 @@ export const productApi = {
     return await axios.put(
       `${import.meta.env.VITE_SV}/admin/updateproduct`,
       data
+    );
+  },
+  productCategory: async (productId) => {
+    return await axios.get(
+      `${import.meta.env.VITE_SV}/category`,
+      productId
     );
   },
 };

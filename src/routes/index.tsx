@@ -23,15 +23,19 @@ import Cancel from "@/pages/admin/order/Cancel";
 import AddProduct from "@/pages/admin/product/AddProduct";
 import ProductDetail from "@/pages/home/ProductDetail/ProductDetail";
 import EditProfile from "@/pages/home/users/profile-edit/EditProfile";
-
+import ProductCategory from "@pages/home/HomePage/Product/ProductCategory";
 export default function index() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home></Home>}>
           <Route path="" element={<HeroHeader></HeroHeader>}></Route>
+          <Route
+            path="/category/product/:productId"
+            element={<ProductCategory></ProductCategory>}
+          ></Route>
           <Route path="/cart" element={<Cart></Cart>}></Route>
-              <Route path="/detail/:productId" element={<ProductDetail />} />
+          <Route path="/detail/:productId" element={<ProductDetail />} />
         </Route>
         <Route path="/profile" element={<Profile></Profile>}>
           <Route
